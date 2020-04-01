@@ -4,7 +4,7 @@ import "./course.less"
 import {UploadOutlined, UserOutlined, VideoCameraOutlined} from "@ant-design/icons";
 const { Header, Content, Footer, Sider } = Layout;
 
-export default class Course extends React.Component{
+export default class StudentCourse extends React.Component{
     render() {
         return (
             <Layout className="course" >

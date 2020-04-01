@@ -5,14 +5,11 @@ import Constant from '../utils/constant'
 axios.interceptors.request.use(function (config) {
     config.baseURL=Constant.BaseUrl;
     // config.withCredentials = true;
-    console.log("url",config.url)
     let token = '';
     if(config.url.startsWith("/admin")){
         token = window.localStorage.getItem('admin_token');
-    }else if(config.url.startsWith("/student")) {
-        token = window.localStorage.getItem('student_token');
-    }else if(config.url.startsWith("/teacher")){
-        token = window.localStorage.getItem('teacher_token');
+    }else{
+        token = window.localStorage.getItem('token');
     }
     if (token !=='' || token !==undefined ) {
         config.headers['Authorization'] = token
@@ -26,13 +23,8 @@ axios.interceptors.response.use(function (response) {
         message.error("请重新登录后操作!");
         if(response.config.url.startsWith(`/admin/`)){
             window.localStorage.removeItem("admin_token");//可能为失效，所以移除
-            window.location.href="/admin-login"
-        }else if(response.config.url.startsWith('/student/')){
-            window.localStorage.removeItem("student_token");
-            window.location.href="/login"
-        }else if(response.config.url.startsWith('/teacher/')){
-            window.localStorage.removeItem("teacher_token");
-            window.location.href="/login"
+        }else {
+            window.localStorage.removeItem("token");
         }
     }
     return response;
@@ -51,7 +43,7 @@ export default function ajax(url, data = {}, type = 'GET') {
         } else if (type === 'PUT') {
             promise = axios.put(url, data);
         } else if (type === 'DELETE') {
-            promise = axios.delete(url, data);
+            promise = axios.delete(url);
         }
         promise.then(response => {
             resolve(response.data);

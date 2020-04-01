@@ -23,7 +23,6 @@ export default class LoginRegister extends React.Component{
                             {this.props.children}
                         </Col>
                     </Row>
-
                 </div>
         )
     }

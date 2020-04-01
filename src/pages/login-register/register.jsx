@@ -1,12 +1,25 @@
 import React from "react";
-import {Form, Input, Row, Col,  Button, } from 'antd';
+import {Form, Input, Row, Col, Button, message, Radio,} from 'antd';
 
 import LoginRegister from "./loginRegister";
+import request from "../../api";
 
 export default class Register extends React.Component{
-
-    onFinish=()=>{
-
+    userRegister = async (user)=>{
+        try{
+            const result=await request.userRegister(user);
+            message.success("注册成功!");
+            this.props.history.push("/login");
+        }catch (e) {
+            if(e.response.status===400){
+                message.error("格式不正确！")
+            }else {
+                message.error("用户已注册！");
+            }
+        }
+    };
+    onFinish=(values)=>{
+        this.userRegister(values);
     };
     render() {
         const formItemLayout = {
@@ -33,12 +46,8 @@ export default class Register extends React.Component{
         };
         return (
             <LoginRegister type='register'>
-                <Form
-                    {...formItemLayout}
-                    ref={this.formRef}
-                    name="register"
-                    onFinish={this.onFinish}
-                    scrollToFirstError
+                <Form {...formItemLayout} name="register"
+                      onFinish={this.onFinish} scrollToFirstError
                 >
                     <Form.Item name="email" label="邮箱"
                         rules={[
@@ -90,7 +99,6 @@ export default class Register extends React.Component{
                             </Col>
                         </Row>
                     </Form.Item>
-
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit" style={{width:"100%"}}>注册</Button>
                     </Form.Item>

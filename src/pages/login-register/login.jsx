@@ -4,20 +4,14 @@ import LoginRegister from "./loginRegister";
 import { Form, Input, Button,Radio, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from "react-router-dom";
-import request from '../../api'
-
+import request from '../../api';
 class Login extends React.Component{
     userLogin=async (user)=>{
         try{
             const result=await request.userLogin(user);
             message.success("登录成功!");
-            if(user.role===1){
-                window.localStorage.setItem("student_token",result.token);
-                this.props.history.push("/student");
-            }else if(user.role===2){
-                window.localStorage.setItem("teacher_token",result.token);
-                this.props.history.push("/teacher");
-            }
+            window.localStorage.setItem("token",result.token);
+            this.props.history.push("/user");
         }catch (e) {
             if(e.response.status===400){
                 message.error("参数错误！")
@@ -32,10 +26,7 @@ class Login extends React.Component{
     render() {
         return (
             <LoginRegister type='login'>
-                <Form name="normal_login" className="login-form"
-                      ref={this.formRef}
-                      onFinish={this.onFinish}
-                      initialValues={{role:1}} >
+                <Form name="login" className="login-form" onFinish={this.onFinish}>
                     <Form.Item name="email"  rules={[
                             {required: true,message: '请输入邮箱!'},
                             {type:'email',message: '格式不正确！'}
@@ -53,12 +44,6 @@ class Login extends React.Component{
                         />
                     </Form.Item>
 
-                    <Form.Item name="role">
-                        <Radio.Group>
-                            <Radio value={1}>学生</Radio>
-                            <Radio value={2}>教师</Radio>
-                        </Radio.Group>
-                    </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}}>
                             登录
