@@ -5,6 +5,7 @@ import Login from './pages/login-register/login';
 import Register from "./pages/login-register/register";
 import User from "./pages/user/user";
 import StudentCourse from "./pages/student-course/student-course";
+import TeacherCourse from "./pages/teacher-course/teacher-course";
 import {connect} from 'react-redux'
 import {getUser} from "./store/actions"
 
@@ -28,6 +29,7 @@ class App extends React.Component{
                         <Route path='/register' component={Register}/>
                         <Route path='/user' component={User}/>
                         <Route path='/student-course' component={StudentCourse}/>
+                        <Route path='/teacher-course/:id' component={TeacherCourse}/>
                         {/*<Route path='/account'  render={(props)=>{*/}
                         {/*  return <Account user={this.state.user} {...props}/>*/}
                         {/*}}/>*/}

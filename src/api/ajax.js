@@ -33,7 +33,7 @@ axios.interceptors.response.use(function (response) {
 });
 
 
-export default function ajax(url, data = {}, type = 'GET') {
+export  function ajax(url, data = {}, type = 'GET') {
     return new Promise((resolve, reject) => {
         let promise;
         if (type === 'GET') {
@@ -43,7 +43,7 @@ export default function ajax(url, data = {}, type = 'GET') {
         } else if (type === 'PUT') {
             promise = axios.put(url, data);
         } else if (type === 'DELETE') {
-            promise = axios.delete(url);
+            promise = axios.delete(url,{params:data});
         }
         promise.then(response => {
             resolve(response.data);
@@ -51,5 +51,29 @@ export default function ajax(url, data = {}, type = 'GET') {
             reject(error);
         })
     })
-
+}
+export function download(url) {
+    return axios({
+        url: url,
+        method: 'get',
+        responseType: 'blob'
+    }).then((res)=>{
+        if (res.data.type === "application/json") {
+            message.error("下载失败")
+        } else {
+            let blob = new Blob([res.data]);
+            let link = document.createElement("a");
+            let evt = document.createEvent("HTMLEvents");
+            evt.initEvent("click", false, false);
+            link.href = URL.createObjectURL(blob);
+            //用split简单的获取文件名
+            let filename=res.headers["content-disposition"].split("filename=").pop().toString();
+            console.log(res,filename);
+            link.download = filename;
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+        }
+    })
 }

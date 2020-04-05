@@ -7,6 +7,7 @@ import Constant from "../../utils/constant";
 import {Switch,Route,Link,Redirect} from 'react-router-dom';
 import CourseInfo from "./course-info";
 import PersonalInfo from "./personal-info";
+import TeachCourse from "./teach-course";
 const { Header, Content, Footer, Sider } = Layout;
 class User extends React.Component{
     logout=()=>{
@@ -20,10 +21,7 @@ class User extends React.Component{
         }
     };
     componentDidMount() {
-        // let token = window.localStorage.getItem("token");
-        // if(token !=="" || token!==undefined){
-        //     this.props.getUser();
-        // }
+
     }
     onSiderMenuClick=(config)=>{
         let {key} = config;
@@ -35,7 +33,8 @@ class User extends React.Component{
     };
     menuData=[
         {key:"1", path:"/user/course-info", text:"我的课程", icon:<UserOutlined />},
-        {key:"2",path:"/user/personal-info", text:"我的信息",icon:<VideoCameraOutlined />},
+        {key:"2",path:"/user/teach-course", text:"我教的课",icon:<VideoCameraOutlined />},
+        {key:"3",path:"/user/personal-info", text:"我的信息",icon:<VideoCameraOutlined />},
     ];
     //输入路径名或点击返回时能正确显示菜单选中状态
     getSelectedKey=()=> {
@@ -88,6 +87,7 @@ class User extends React.Component{
                         <Switch>
                             <Redirect from="/user" exact to="/user/course-info"/>
                             <Route path="/user/course-info" component={CourseInfo}/>
+                            <Route path="/user/teach-course" component={TeachCourse}/>
                             <Route path="/user/personal-info" component={PersonalInfo}/>
                         </Switch>
                     </Content>

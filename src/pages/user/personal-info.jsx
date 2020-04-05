@@ -1,57 +1,20 @@
 import React from "react";
-import {Button, Form, Input, Radio, Tabs, Row, Col, Card, message,Upload,Modal} from "antd";
-import Constant from "../../utils/constant";
+import {Button, Form, Input, Radio, Row, Col, Card, message} from "antd";
 import {connect} from 'react-redux';
 import request from "../../api";
-import {LoadingOutlined, PlusOutlined,UploadOutlined} from "@ant-design/icons";
+import {PlusOutlined} from "@ant-design/icons";
+import PictureUpload from "../../components/PictureUpload";
 class PersonalInfo extends React.Component{
-    state = {
-        key: 'info',
-        avatarUrl:'',
-        fileList:[],
-        previewVisible: false,
-        previewImage: '',
-    };
-    getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-    };
-    handleCancel = () => this.setState({ previewVisible: false });
+    constructor(props) {
+        super(props);
+        this.state = {
+            key: 'info',
+        };
+        this.formRef = React.createRef();
+        this.hasInitForm =false;
+        this.getFileList=()=>{};
+    }
 
-    handlePreview = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await this.getBase64(file.originFileObj);
-        }
-
-        this.setState({
-            previewImage: file.url || file.preview,
-            previewVisible: true,
-        });
-    };
-
-    handleChange = ({ fileList }) => this.setState({ fileList });
-    formRef = React.createRef();
-    hasInitForm =false;
-    beforeUpload=(file)=>{
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-        if (!isJpgOrPng) {
-            message.error('只能上传JPG/PNG文件!');
-            this.setState({fileList:[]})
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-            message.error('图片必须小于2MB!');
-            this.setState({fileList:[]})
-        }
-        this.setState(state => ({
-            fileList: [file],
-        }));
-        return false;
-    };
     initPersonalInfoForm=()=>{
         const user = this.props.user;
         this.formRef.current.setFieldsValue({
@@ -65,23 +28,21 @@ class PersonalInfo extends React.Component{
         this.setState({ key: key });
     };
     handleUpdateInfo = async (values)=>{
-        console.log(this.state.fileList[0])
-        // const formData = new FormData();
-        // if(this.state.fileList.length!==0){
-        //     formData.append('avatar', this.state.fileList[0]);
-        // }
-        // for(let i in values){
-        //     formData.append(i,values[i]);
-        // }
-        // console.log(formData);
-        // try{
-        //     const result = await request.updateUserById(formData);
-        //     this.setState({avatarUrl:result.avatar});
-        //     message.success("修改成功");
-        //
-        // }catch (e) {
-        //     message.error("修改失败");
-        // }
+        const fileList = this.getFileList();
+        const formData = new FormData();
+        if(fileList.length!==0){
+            formData.append('avatar', fileList[0].originFileObj);
+        }
+        for(let i in values){
+            formData.append(i,values[i]);
+        }
+        try{
+            await request.updateUserById(formData);
+            message.success("修改成功");
+
+        }catch (e) {
+            message.error("修改失败");
+        }
 
     };
     handleUpdatePassword = async (values)=>{
@@ -97,18 +58,15 @@ class PersonalInfo extends React.Component{
         }
     };
     componentDidMount() {
-
+        this.initPersonalInfoForm();
     }
-
     componentDidUpdate(prevProps,prevState, snapshot) {
         if(this.state.key==='info'){
-            if(this.hasInitForm===false){
-                this.initPersonalInfoForm();
-                console.log("init form")
-            }
-            this.hasInitForm=true;
+            // if(this.hasInitForm===false){
+            // }
+            // this.hasInitForm=true;
+            this.initPersonalInfoForm();
         }
-        console.log("update")
     }
 
     render() {
@@ -129,24 +87,15 @@ class PersonalInfo extends React.Component{
                 <div className="ant-upload-text">Upload</div>
             </div>
         );
-        const { previewVisible, previewImage, fileList } = this.state;
         const contentList = {
             info: (
                 <Form name="info" onFinish={this.handleUpdateInfo}
                       {...formItemLayout} ref={this.formRef}
                 >
                         <Form.Item label="头像" name="avatar">
-                                <Upload listType="picture-card"
-                                        fileList={fileList}
-                                        beforeUpload={this.beforeUpload}
-                                        onPreview={this.handlePreview}
-                                        onChange={this.handleChange}
-                                >
-                                {fileList.length >= 1 ? null : uploadButton}
-                                </Upload>
-                                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                                </Modal>
+                            <PictureUpload fileList={(callback)=>{
+                                this.getFileList=callback;
+                            }} />
                         </Form.Item>
                         <Form.Item name="email" label="邮箱"  rules={[
                             {required: true,message: '请输入邮箱!'},
