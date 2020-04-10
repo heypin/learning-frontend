@@ -43,7 +43,6 @@ export default class Resource extends React.Component{
         if(this.props.location !== prevProps.location){//路由变化重新载入文件数据
             this.loadFileData();
         }
-
     }
 
     fileColumns=[
@@ -101,11 +100,9 @@ export default class Resource extends React.Component{
     handleDownloadFile=async (id)=>{
         try{
             await Request.downloadFile(id);
-
         }catch (e) {
             message.error("下载出错");
         }
-
     };
     handleDeleteFile=async (id)=>{
         try{
@@ -130,7 +127,7 @@ export default class Resource extends React.Component{
     showNewFolderModal=()=>{this.setState({newFolderVisible:true});};
     showNewFileModal=()=>{this.setState({newFileVisible:true,});};
     handleNewFolderCancel=()=>{this.setState({newFolderVisible:false});};
-    handleNewFileCancel=()=>{this.setState({newFileVisible:false,fileList:[]});};
+    handleNewFileCancel=()=>{this.setState({newFileVisible:false});};
     handleCreateFolder=async (values)=>{
         try{
             let file = {folderName:values.folderName,courseId:this.courseId,parentId:this.parentId};
@@ -149,14 +146,12 @@ export default class Resource extends React.Component{
         fileList.forEach(file => {
             formData.append('file[]', file);
         });
-        formData.append("courseId",this.courseId);
+        formData.append("courseId",this.courseId.toString());
         formData.append("parentId",this.parentId);
-        this.setState({
-            uploading: true,
-        });
+        this.setState({uploading: true,});
         try{
             await Request.createFile(formData);
-            this.setState({uploading:false});
+            this.setState({uploading:false,fileList:[]});
             this.handleNewFileCancel();
             this.loadFileData();
             message.success("上传成功");
@@ -258,7 +253,8 @@ export default class Resource extends React.Component{
                         </Button>
                         <Modal title="上传文件" onCancel={this.handleNewFileCancel}
                                visible={this.state.newFileVisible} footer={null}>
-                            <Upload onRemove={this.onRemove} beforeUpload={this.beforeUpload} listType="picture">
+                            <Upload onRemove={this.onRemove} listType="picture"
+                                    beforeUpload={this.beforeUpload} fileList={this.state.fileList}>
                                 <Button>
                                     <UploadOutlined /> 选择文件
                                 </Button>

@@ -14,4 +14,11 @@ export default {
     createFolder:(file)=>ajax(`/file/folder`,file,'POST'),
     downloadFile:(id)=>download(`/file/download?id=${id}`),
     deleteFile:(id)=>ajax(`/file`,{id:id},'DELETE'),
+    getChapterByCourseId:(id)=>ajax(`/chapter`,{courseId:id}),
+    createChapter:(chapter)=>ajax(`/chapter`,chapter,'POST'),
+    updateChapterName:(chapter)=>ajax(`/chapter`,chapter,'PUT'),
+    deleteChapterById:(id)=>ajax(`/chapter`,{id:id},'DELETE'),
+    deleteChapterVideoById:(id)=>ajax(`/chapter/video`,{id:id},'DELETE'),
+    updateChapterVideo:(chapter)=>ajax(`/chapter/video`,chapter,'PUT'),
+
 }

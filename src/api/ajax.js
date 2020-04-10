@@ -10,6 +10,7 @@ axios.interceptors.request.use(function (config) {
         token = window.localStorage.getItem('admin_token');
     }else{
         token = window.localStorage.getItem('token');
+
     }
     if (token !=='' || token !==undefined ) {
         config.headers['Authorization'] = token
@@ -25,6 +26,7 @@ axios.interceptors.response.use(function (response) {
             window.localStorage.removeItem("admin_token");//可能为失效，所以移除
         }else {
             window.localStorage.removeItem("token");
+            window.location.href="/#login";
         }
     }
     return response;
