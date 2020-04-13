@@ -81,7 +81,7 @@ export default class Home extends React.Component{
         formData.append('id',this.state.selectedChapterId);
         this.setState({uploading: true,});
         try {
-            const result=await Request.updateChapterVideo(formData);
+            await Request.updateChapterVideo(formData);
             this.setState({
                 uploading: false,
                 fileList: [],

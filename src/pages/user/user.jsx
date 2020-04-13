@@ -1,14 +1,14 @@
 import React from "react";
-import { Layout, Menu,Card,Button,Avatar,Row,Col } from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Layout, Menu,Avatar } from 'antd';
+import {UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import "./user.less"
 import {connect} from 'react-redux';
 import Constant from "../../utils/constant";
-import {Switch,Route,Link,Redirect} from 'react-router-dom';
+import {Switch,Route,Redirect} from 'react-router-dom';
 import CourseInfo from "./course-info";
 import PersonalInfo from "./personal-info";
 import TeachCourse from "./teach-course";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 class User extends React.Component{
     logout=()=>{
         window.localStorage.removeItem("student_token");
@@ -20,16 +20,14 @@ class User extends React.Component{
             this.logout();
         }
     };
-    componentDidMount() {
-
-    }
     onSiderMenuClick=(config)=>{
         let {key} = config;
-        this.menuData.forEach((item)=>{
-            if(item.key===key){
-                this.props.history.push(item.path);
+        for(let i=0;i<this.menuData.length;i++){
+            if(this.menuData[i].key===key){
+                this.props.history.push(this.menuData[i].path);
+                break;
             }
-        })
+        }
     };
     menuData=[
         {key:"1", path:"/user/course-info", text:"我的课程", icon:<UserOutlined />},
@@ -54,7 +52,7 @@ class User extends React.Component{
         }
         const user = this.props.user;
         return (
-            <Layout className="student">
+            <Layout className="user">
                 <Header className="header" >
                     <div className="logo">辅助学习平台</div>
                     <Menu theme="light" mode="horizontal" className="menu" onClick={this.onUserMenuClick}>

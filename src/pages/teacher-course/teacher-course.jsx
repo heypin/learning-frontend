@@ -6,12 +6,13 @@ import Classes from "./class";
 import Resource from "./resource";
 import Notify from "./notify";
 import Homework from "./homework";
-import Discuss from "./discuss";
+import Discuss from "./discuss/discuss";
 import Exam from "./exam";
-const { Header, Content,Sider } = Layout;
+const { Header } = Layout;
 export default class TeacherCourse extends React.Component{
     constructor(props) {
         super(props);
+        this.selectedKey=[];
         this.parentPath="/teacher-course/"+props.match.params.id;
     }
     menuData=[
@@ -23,36 +24,13 @@ export default class TeacherCourse extends React.Component{
         {key:"exam",path:"/exam", text:"考试"},
         {key:"discuss",path:"/discuss", text:"讨论"},
     ];
-    //输入路径名或点击返回时能正确显示菜单选中状态
-    getSelectedKey=()=> {
-        const path = this.props.location.pathname;
-        let selectedKey=[];
-        this.menuData.forEach((item)=>{
-            if(this.parentPath+item.path===path){
-                selectedKey=[item.key];
-            }
-        });
-        return selectedKey;
-    };
-    onMenuClick=(config)=>{
-        let {key} = config;
-        this.menuData.forEach((item)=>{
-            if(item.key===key){
-                this.props.history.push(item.path);
-            }
-        })
-    };
     render() {
-        let selectedKey = this.getSelectedKey();
-        if(selectedKey.length===0){
-            selectedKey=['home'];
-        }
         return (
             <Layout className="course" >
-                <Header className="header">
+                <Header className="header" style={{marginBottom:1}}>
                     <div className="course-name">课程名</div>
-                    <Menu theme="light" mode="horizontal" selectedKeys={selectedKey}
-                          defaultSelectedKeys={['home']} className="menu">
+                    <Menu theme="light" mode="horizontal"
+                           className="menu">
                         {
                             this.menuData.map((item)=>{
                                 return (
