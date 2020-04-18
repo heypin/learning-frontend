@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Card, Col, Row, Modal, Form, Upload, Input, Radio, message} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import PictureUpload from "../../components/PictureUpload";
-import request from "../../api";
+import Request from "../../api";
 import {Link} from "react-router-dom";
 import Constant from "../../utils/constant";
 
@@ -36,7 +36,7 @@ export default class TeachCourse extends React.Component{
             formData.append(i,values[i]);
         }
         try{
-            await request.createCourse(formData);
+            await Request.createCourse(formData);
             message.success("创建成功");
             this.handleCancel();
         }catch (e) {
@@ -46,7 +46,7 @@ export default class TeachCourse extends React.Component{
 
     getTeachCourse = async ()=>{
         try{
-            const result = await request.getTeachCourse();
+            const result = await Request.getTeachCourse();
             this.setState({courses:result});
         }catch (e) {
             message.error("获取课程信息失败");

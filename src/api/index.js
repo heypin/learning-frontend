@@ -30,4 +30,6 @@ export default {
     getCommentReplyToUser:(courseId)=>ajax(`/comment/reply`,{courseId:courseId}),
     createComment:(comment)=>ajax(`/comment`,comment,'POST'),
     deleteCommentById:(id)=>ajax(`/comment`,{id:id},'DELETE'),
+    joinClass:(code)=>ajax(`/classMember/join`,code,'POST'),
+    getClassesByUserId:()=>ajax(`/classMember/class`),
 }

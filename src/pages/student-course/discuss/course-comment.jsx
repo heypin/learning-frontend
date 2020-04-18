@@ -3,12 +3,13 @@ import {Comment, Avatar, List, Empty, Button, message, Modal, Input, Card} from 
 import moment from "moment";
 import Constant from "../../../utils/constant";
 import Request from "../../../api"
+import queryString from "querystring";
 import {withRouter} from "react-router";
 
 class CourseComment extends React.Component {
     constructor(props) {
         super(props);
-        this.courseId = parseInt(props.match.params.id);
+        this.courseId = queryString.parse(props.location.search.slice(1)).courseId;
         this.replyId = 0;
         this.parentId = 0;
         this.replyUserId = 0;

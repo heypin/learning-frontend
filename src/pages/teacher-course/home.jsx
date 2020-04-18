@@ -14,8 +14,6 @@ export default class Home extends React.Component{
             updateChapterModal: false,
             uploadVideoModal: false,
             uploading: false,
-            videoFile: null,
-            selectedKeys:[],
             fileList:[],
             selectedChapterId:0,
             selectedVideoName:"",
@@ -28,24 +26,27 @@ export default class Home extends React.Component{
         try{
             const result = await Request.getChapterByCourseId(this.courseId);
             this.setState({chapters:result});
-            if(this.state.selectedKeys.length===0){
-                if(result.length!==0){
+            if(result.length!==0){
+                if(this.state.selectedChapterId===0){
                     let chapter=result[0];
                     this.setState({
-                        selectedKeys:[chapter.ID.toString()],
                         selectedChapterId:chapter.ID,
                         selectedVideoName:chapter.videoName,
                     });
-                }else {
-                    this.setState({selectedVideoName:""})
+                }else{
+                    result.forEach((item)=>{
+                        if(item.ID===this.state.selectedChapterId){
+                            this.setState({selectedVideoName:item.videoName})
+                        }
+                    })
                 }
             }else {
-                this.updateSelectedState(this.state.selectedChapterId)
+                this.setState({selectedChapterId:0,selectedVideoName:""})
             }
+
         }catch (e) {
             message.error("获取目录失败");
         }
-
     };
     addChapter= async (values)=>{
         try{
@@ -94,16 +95,14 @@ export default class Home extends React.Component{
             this.setState({uploading:false});
         }
     };
-    onMenuItemClick=({key})=>{
-        let id = parseInt(key);
-        this.updateSelectedState(id);
+    onMenuItemClick=({item})=>{
+        let chapter = item.props.record;
+        this.setState({
+            selectedChapterId:chapter.ID,
+            selectedVideoName:chapter.videoName,
+        });
     };
-    updateSelectedState=(id)=>{
-        let chapter = this.getChapterRecordById(id);
-        let videoName="";
-        if(chapter!==null) videoName=chapter.videoName;
-        this.setState({selectedKeys:[id.toString()],selectedChapterId:id,selectedVideoName:videoName});
-    };
+
     deleteChapterVideo=async ()=>{
         try{
             await Request.deleteChapterVideoById(this.state.selectedChapterId);
@@ -116,7 +115,7 @@ export default class Home extends React.Component{
     deleteChapter=async ()=>{
         try{
             await Request.deleteChapterById(this.state.selectedChapterId);
-            this.setState({selectedKeys:[]});
+            this.setState({selectedChapterId:0});
             message.success("删除目录成功");
             this.loadChapterData();
         }catch (e) {
@@ -140,15 +139,7 @@ export default class Home extends React.Component{
         fileList = fileList.slice(-1);
         this.setState({fileList:fileList});
     };
-    getChapterRecordById(id){
-        let chapter = null;
-        this.state.chapters.forEach((item)=>{
-            if(item.ID===id){
-                chapter = item;
-            }
-        });
-        return chapter;
-    }
+
     render() {
         const formItemLayout = {
             labelCol: {span:4},
@@ -157,15 +148,13 @@ export default class Home extends React.Component{
         const tailFormItemLayout = {
             wrapperCol: {span:16,offset:4},
         };
-
-
         return (
             <React.Fragment>
                 <Sider className="sider" theme="light" breakpoint="lg" collapsedWidth="0" width="250">
                     <Menu theme="light" mode="inline" onClick={this.onMenuItemClick}
-                          selectedKeys={this.state.selectedKeys}>
+                          selectedKeys={[this.state.selectedChapterId.toString()]}>
                         {this.state.chapters.map((item)=>{return (
-                                    <Menu.Item key={item.ID}>
+                                    <Menu.Item key={item.ID} record={item}>
                                         <span className="nav-text">{item.chapterName}</span>
                                     </Menu.Item>
                         )})}

@@ -1,48 +1,73 @@
 import React from "react";
-import { Layout, Menu,List,Card,Button,Avatar,Row,Col } from 'antd';
-import "./course.less"
-import {UploadOutlined, UserOutlined, VideoCameraOutlined} from "@ant-design/icons";
-const { Header, Content, Footer, Sider } = Layout;
-
+import {Layout, Menu} from "antd";
+import {Link,Route, Switch} from "react-router-dom";
+import "./student-course.less";
+import Home from "./home";
+import Resource from "./resource";
+import Notify from "./notify";
+import Homework from "./homework";
+import Exam from "./exam";
+import Discuss from "./discuss/discuss";
+import queryString from 'querystring'
+const { Header } = Layout;
 export default class StudentCourse extends React.Component{
+    constructor(props) {
+        super(props);
+        this.parentPath="/student-course";
+        this.query=this.getQuery();
+    }
+    menuData=[
+        {key:"home", path:"/home", text:"首页"},
+        {key:"resource",path:"/resource", text:"资料"},
+        {key:"notify",path:"/notify", text:"通知"},
+        {key:"homework",path:"/homework", text:"作业"},
+        {key:"exam",path:"/exam", text:"考试"},
+        {key:"discuss",path:"/discuss", text:"讨论"},
+    ];
+    getQuery=()=>{
+        const search=this.props.location.search;
+        let courseId,classId=0;
+        let query="";
+        if(search!==""){
+            let obj=queryString.parse(search.slice(1));
+            courseId=obj.courseId;
+            classId=obj.classId;
+            query=`courseId=${courseId}&classId=${classId}`;
+        }
+        return query
+    };
     render() {
+
         return (
-            <Layout className="course" >
-                <Header className="header">
+            <Layout className="student-course" >
+                <Header className="header" style={{marginBottom:1}}>
                     <div className="course-name">课程名</div>
-                    <Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']} className="menu">
-                        <Menu.Item key="1">首页</Menu.Item>
-                        <Menu.Item key="2">资料</Menu.Item>
-                        <Menu.Item key="3">通知</Menu.Item>
-                        <Menu.Item key="4">作业</Menu.Item>
-                        <Menu.Item key="5">考试</Menu.Item>
-                        <Menu.Item key="6">讨论</Menu.Item>
+                    <Menu theme="light" mode="horizontal"
+                          className="menu">
+                        {
+                            this.menuData.map((item)=>{
+                                return (
+                                    <Menu.Item key={item.key}>
+                                        <Link to={{pathname:this.parentPath+item.path,search:this.query}}>
+                                            <span className="nav-text">{item.text}</span>
+                                        </Link>
+                                    </Menu.Item>
+                                )
+                            })
+                        }
                     </Menu>
                 </Header>
                 <Layout>
-                    <Sider className="sider" theme="light" breakpoint="lg" collapsedWidth="0" width="250">
-                        <Menu theme="light" mode="inline" defaultSelectedKeys={['1']} className="menu">
-                            <Menu.Item key="1">
-                                <span className="nav-text">我的课程</span>
-                            </Menu.Item>
-                            <Menu.Item key="2">
-                                <span className="nav-text">nav 2</span>
-                            </Menu.Item>
-                            <Menu.Item key="3">
-                                <span className="nav-text">nav 3</span>
-                            </Menu.Item>
-                            <Menu.Item key="4">
-                                <span className="nav-text">nav 4</span>
-                            </Menu.Item>
-
-                        </Menu>
-                    </Sider>
-                    <Content className="body">
-
-                    </Content>
+                    <Switch>
+                        <Route path="/student-course/home" component={Home}/>
+                        <Route path="/student-course/resource" component={Resource}/>
+                        <Route path="/student-course/notify" component={Notify}/>
+                        <Route path="/student-course/homework" component={Homework}/>
+                        <Route path="/student-course/exam" component={Exam}/>
+                        <Route path="/student-course/discuss" component={Discuss}/>
+                    </Switch>
                 </Layout>
             </Layout>
-
         )
     }
 }

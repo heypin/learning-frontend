@@ -105,7 +105,8 @@ export default class Notify extends React.Component{
             </div>
         );
         return (
-            <Card title="通知" extra={addNotify} bodyStyle={{padding:20}}>
+            <Card title="通知" extra={addNotify} bodyStyle={{padding:20}}
+                  style={{width:"80%",marginLeft:"auto",marginRight:"auto"}}>
                 <List itemLayout="horizontal" dataSource={this.state.notifyData}
                     renderItem={item => (
                         <List.Item

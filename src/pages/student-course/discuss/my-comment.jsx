@@ -1,25 +1,35 @@
 import React from "react";
-import {Avatar, Card, Comment, Empty, List, message} from "antd";
+import {Avatar, Button, Card, Comment, Empty, List, message, Popconfirm} from "antd";
 import Constant from "../../../utils/constant";
 import moment from "moment";
 import Request from "../../../api";
+import queryString from "querystring";
 import {withRouter} from "react-router";
 
-class ReplyToMe extends React.Component{
+class MyComment extends React.Component{
     constructor(props) {
         super(props);
-        this.courseId = parseInt(props.match.params.id);
+        this.courseId = queryString.parse(props.location.search.slice(1)).courseId;
         this.state = {
             commentData: [],
         };
     }
     loadCommentData=async ()=>{
         try {
-            const result = await Request.getCommentReplyToUser(this.courseId);
+            const result = await Request.getCommentByUserId(this.courseId);
             this.setState({commentData: result});
         } catch (e) {
             message.error("获取评论失败");
         }
+    };
+    deleteComment=async (item)=>{
+      try {
+          await Request.deleteCommentById(item.ID);
+          this.loadCommentData();
+          message.success("已删除");
+      }catch (e) {
+          message.error("删除失败");
+      }
     };
     componentDidMount() {
         this.loadCommentData();
@@ -31,7 +41,9 @@ class ReplyToMe extends React.Component{
                       renderItem={item => this.state.commentData.length === 0 ?
                           (<Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>) :
                           (<li>
-                              <Comment
+                              <Comment actions={[<Popconfirm title="确定删除" onConfirm={()=>{this.deleteComment(item)}}>
+                                      <Button style={{padding:0}} type="link">删除</Button>
+                                  </Popconfirm>]}
                                   author={<span style={{color:"black"}}>{item.user.realName}</span>}
                                   avatar={<Avatar src={item.user.avatar === "" ? "" : Constant.BaseAvatar + item.user.avatar}/>}
                                   content={item.content}
@@ -45,4 +57,4 @@ class ReplyToMe extends React.Component{
         )
     }
 }
-export default withRouter(ReplyToMe);
+export default withRouter(MyComment);

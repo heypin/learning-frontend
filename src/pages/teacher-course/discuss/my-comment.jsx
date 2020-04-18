@@ -3,7 +3,9 @@ import {Avatar, Button, Card, Comment, Empty, List, message, Popconfirm} from "a
 import Constant from "../../../utils/constant";
 import moment from "moment";
 import Request from "../../../api";
-export class MyComment extends React.Component{
+import {withRouter} from "react-router";
+
+class MyComment extends React.Component{
     constructor(props) {
         super(props);
         this.courseId = parseInt(props.match.params.id);
@@ -54,3 +56,4 @@ export class MyComment extends React.Component{
         )
     }
 }
+export default withRouter(MyComment);

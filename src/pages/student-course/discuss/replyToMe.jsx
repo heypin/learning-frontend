@@ -1,14 +1,15 @@
 import React from "react";
-import {Avatar, Card, Comment, Empty, List, message} from "antd";
+import {Avatar, Card, Comment, Empty, List, message, } from "antd";
 import Constant from "../../../utils/constant";
 import moment from "moment";
 import Request from "../../../api";
+import queryString from "querystring";
 import {withRouter} from "react-router";
 
 class ReplyToMe extends React.Component{
     constructor(props) {
         super(props);
-        this.courseId = parseInt(props.match.params.id);
+        this.courseId = queryString.parse(props.location.search.slice(1)).courseId;
         this.state = {
             commentData: [],
         };

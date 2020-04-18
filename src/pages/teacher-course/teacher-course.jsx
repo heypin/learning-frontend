@@ -12,7 +12,6 @@ const { Header } = Layout;
 export default class TeacherCourse extends React.Component{
     constructor(props) {
         super(props);
-        this.selectedKey=[];
         this.parentPath="/teacher-course/"+props.match.params.id;
     }
     menuData=[
@@ -26,7 +25,7 @@ export default class TeacherCourse extends React.Component{
     ];
     render() {
         return (
-            <Layout className="course" >
+            <Layout className="teacher-course" >
                 <Header className="header" style={{marginBottom:1}}>
                     <div className="course-name">课程名</div>
                     <Menu theme="light" mode="horizontal"

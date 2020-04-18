@@ -5,7 +5,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import './teacher-course.less'
 import Request from "../../api";
 import moment from "moment";
-import folder from "../../assets/folder.png"
+import folder from "../../assets/folder.png";
+import queryString from "querystring";
 const ResizeableTitle = props => {
     const { onResize, width, ...restProps } = props;
     if (!width) {return <th {...restProps} />;}
@@ -163,7 +164,7 @@ export default class Resource extends React.Component{
       try{
           let search = this.props.location.search;
           if(search!==""){
-              this.parentId=parseInt(search.split("=").pop());
+              this.parentId=queryString.parse(search.slice(1)).parentId;
           }else {
               this.parentId = 0;
           }
@@ -172,6 +173,7 @@ export default class Resource extends React.Component{
           this.setState({fileData:result});
 
       }catch (e) {
+          console.log(e);
           message.error("获取文件数据失败");
       }
     };
