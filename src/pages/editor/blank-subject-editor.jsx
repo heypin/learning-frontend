@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Form, Input, InputNumber, Radio} from "antd";
 const formItemLayout = {
     labelCol: {span:2},
-    wrapperCol: {span:8},
+    wrapperCol: {span:16},
 };
 const tailFormItemLayout = {
     wrapperCol: {offset:2},
@@ -16,7 +16,7 @@ export default class BlankSubjectEditor extends React.Component{
     render() {
         return (
             <div >
-                <Form onFinish={this.onFinish} name="create-blank" {...formItemLayout}>
+                <Form onFinish={this.onFinish} initialValues={this.props.dataSource} name="create-blank" {...formItemLayout}>
                     <Form.Item name="score" label="分值" rules={[{required: true,message: '请输入分值'},]}>
                         <InputNumber min={1} max={100}/>
                     </Form.Item>
@@ -24,9 +24,12 @@ export default class BlankSubjectEditor extends React.Component{
                                rules={[{required: true,message: '请输入题干'},]}>
                         <Input.TextArea  rows={5}/>
                     </Form.Item>
+
                     <Form.Item name="answer" label="正确答案" rules={[{required: true,message: '请输入正确答案'},]}>
-                        <span>每个空的答案用英文逗号分割</span>
                         <Input.TextArea  rows={5}/>
+                    </Form.Item>
+                    <Form.Item wrapperCol={{offset:2}}>
+                        <span>每个空的答案用英文逗号分割</span>
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">

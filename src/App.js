@@ -9,6 +9,7 @@ import TeacherCourse from "./pages/teacher-course/teacher-course";
 import {connect} from 'react-redux';
 import {getUser} from "./store/actions";
 import Editor from "./pages/editor/editor";
+import DoHomework from "./pages/homework/doHomework";
 
 
 class App extends React.Component{
@@ -33,6 +34,7 @@ class App extends React.Component{
                         <Route path='/student-course' component={StudentCourse}/>
                         <Route path='/teacher-course/:id' component={TeacherCourse}/>
                         <Route path="/editor" component={Editor}/>
+                        <Route path="/doHomework" component={DoHomework}/>
                         {/*<Route path='/account'  render={(props)=>{*/}
                         {/*  return <Account user={this.state.user} {...props}/>*/}
                         {/*}}/>*/}

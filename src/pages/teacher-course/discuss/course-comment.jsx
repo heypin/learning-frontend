@@ -96,7 +96,7 @@ class CourseComment extends React.Component {
                     <List itemLayout="horizontal" dataSource={this.state.commentData}
                           renderItem={item => this.state.commentData.length === 0 ?
                               (<Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>) : (
-                                  <li>
+                                  <li >
                                       <Comment
                                           actions={[<Button style={{padding:0}} type="link" onClick={()=>{this.replyParentComment(item)}}>回复</Button>]}
                                           author={<span style={{color:"black"}}>{item.user.realName}</span>}

@@ -25,10 +25,10 @@ export default class Notify extends React.Component{
     render() {
         return (
             <Card title="通知" bodyStyle={{padding:20}}
-                  style={{width:"80%",marginLeft:"auto",marginRight:"auto"}}>
+                  style={{width:"80%",marginLeft:"auto",marginRight:"auto",height:"100%"}}>
                 <List itemLayout="horizontal" dataSource={this.state.notifyData}
                     renderItem={item => (
-                        <List.Item extra={moment(item.CreatedAt).format('YYYY-MM-DD HH:mm:ss')}>
+                        <List.Item style={{borderBottom:"1px solid lightgray"}} extra={moment(item.CreatedAt).format('YYYY-MM-DD HH:mm:ss')}>
                             <List.Item.Meta title={item.title} description={item.content}/>
                         </List.Item>
                     )}

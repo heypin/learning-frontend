@@ -1,19 +1,17 @@
 import React from "react";
-import {Checkbox, Radio} from "antd";
+import {Radio} from "antd";
 export default class JudgementSubject extends React.Component{
     constructor(props) {
         super(props);
         this.state={
-            value:props.dataSource.answer,
+            value:props.record.answer,
         }
     }
-
     onChange=(e)=>{
         let value=e.target.value;
         this.setState({value:value});
-        console.log(value)
-        let values={...this.props.dataSource,answer:value};
-        if(this.props.getValues !== undefined && this.props.getValues!==null) {
+        let values={...this.props.record,answer:value};
+        if(this.props.getValues) {
             this.props.getValues(values);
         }
     };
@@ -35,7 +33,7 @@ export default class JudgementSubject extends React.Component{
             <div style={{paddingLeft:10,paddingRight:10}}>
                 <p style={{fontSize:17,marginBottom:5,wordBreak:"break-all"}}>
                     <span style={{color:"#36aafd"}}>{sequenceNumber}.</span>
-                    <span style={{color:"#36aafd"}}>[{dataSource.type}]</span>
+                    <span style={{color:"#36aafd"}}>[判断题]</span>
                     <span style={{color:"#aeaeae"}}>({dataSource.score}分)</span>
                     <span style={{color:"#333"}}>{dataSource.question}</span>
                 </p>

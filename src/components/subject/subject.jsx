@@ -7,26 +7,26 @@ import ShortSubject from "./short-subject";
 import ProgramSubject from "./program-subject";
 export default class Subject extends React.Component{
     render() {
-        let {dataSource,getValues,sequenceNumber} = this.props;
+        let {type,dataSource,getValues,sequenceNumber,record} = this.props;
         let component;
-        switch(dataSource.type){
+        switch(type){
             case '单选题':
-                component=<SingleSubject sequenceNumber={sequenceNumber}  dataSource={dataSource} getValues={getValues}/>;
+                component=<SingleSubject record={record} sequenceNumber={sequenceNumber}  dataSource={dataSource} getValues={getValues}/>;
                 break;
             case '多选题':
-                component=<MultipleSubject sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
+                component=<MultipleSubject record={record} sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
                 break;
             case '判断题':
-                component=<JudgementSubject sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
+                component=<JudgementSubject record={record} sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
                 break;
             case '填空题':
-                component=<BlankSubject sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
+                component=<BlankSubject record={record} sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
                 break;
             case '简答题':
-                component=<ShortSubject sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
+                component=<ShortSubject record={record} sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
                 break;
             case '编程题':
-                component=<ProgramSubject sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
+                component=<ProgramSubject record={record} sequenceNumber={sequenceNumber} dataSource={dataSource} getValues={getValues}/>;
                 break;
             default:
                 component=null;

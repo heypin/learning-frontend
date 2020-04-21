@@ -3,8 +3,8 @@ import {Checkbox} from "antd";
 export default class MultipleSubject extends React.Component{
     constructor(props) {
         super(props);
-        this.options=this.getOptions();
-        let answer = props.dataSource.answer;
+        this.options=this.props.dataSource.options;
+        let answer = props.record.answer;
         if(answer!==undefined&&answer!=null&&answer!==''){
             answer = answer.split(',');//将1,2变为数组[1,2]
         }
@@ -12,23 +12,11 @@ export default class MultipleSubject extends React.Component{
             value:answer,
         }
     }
-    getOptions=()=>{
-        let options=[];
-        let dataSource=this.props.dataSource;
-        if(dataSource.optionA!==undefined) options.push({option:'A',value:'A',content:dataSource.optionA});
-        if(dataSource.optionB!==undefined) options.push({option:'B',value:'B',content:dataSource.optionB});
-        if(dataSource.optionC!==undefined) options.push({option:'C',value:'C',content:dataSource.optionC});
-        if(dataSource.optionD!==undefined) options.push({option:'D',value:'D',content:dataSource.optionD});
-        if(dataSource.optionE!==undefined) options.push({option:'E',value:'E',content:dataSource.optionE});
-        if(dataSource.optionF!==undefined) options.push({option:'F',value:'F',content:dataSource.optionF});
-        if(dataSource.optionG!==undefined) options.push({option:'G',value:'G',content:dataSource.optionG});
-        return options;
-    };
     onChange=(value)=>{
         this.setState({value:value});
         let answer=value.toString();//将数值变为字符串
-        let values={...this.props.dataSource,answer:answer};
-        if(this.props.getValues !== undefined && this.props.getValues!==null) {
+        let values={...this.props.record,answer:answer};
+        if(this.props.getValues) {
             this.props.getValues(values);
         }
     };
@@ -48,7 +36,7 @@ export default class MultipleSubject extends React.Component{
             <div style={{paddingLeft:10,paddingRight:10}}>
                 <p style={{fontSize:17,marginBottom:5,wordBreak:"break-all"}}>
                     <span style={{color:"#36aafd"}}>{sequenceNumber}.</span>
-                    <span style={{color:"#36aafd"}}>[{dataSource.type}]</span>
+                    <span style={{color:"#36aafd"}}>[多选题]</span>
                     <span style={{color:"#aeaeae"}}>({dataSource.score}分)</span>
                     <span style={{color:"#333"}}>{dataSource.question}</span>
                 </p>
@@ -57,9 +45,9 @@ export default class MultipleSubject extends React.Component{
                         {
                             this.options.map((item)=>{
                                 return (
-                                    <React.Fragment key={item.option}>
-                                        <Checkbox  style={checkBoxStyle} value={item.value}>
-                                            <span>{item.option}.</span>
+                                    <React.Fragment key={item.sequence}>
+                                        <Checkbox  style={checkBoxStyle} value={item.sequence}>
+                                            <span>{item.sequence}.</span>
                                             <span>{item.content}</span>
                                         </Checkbox>
                                         <br/>

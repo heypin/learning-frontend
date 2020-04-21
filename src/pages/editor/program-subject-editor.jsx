@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Form, Input, InputNumber} from "antd";
 const formItemLayout = {
     labelCol: {span:2},
-    wrapperCol: {span:8},
+    wrapperCol: {span:16},
 };
 const tailFormItemLayout = {
     wrapperCol: {offset:2},
@@ -16,7 +16,7 @@ export default class ProgramSubjectEditor extends React.Component{
     render() {
         return (
             <div >
-                <Form onFinish={this.onFinish} name="create-single" {...formItemLayout}>
+                <Form onFinish={this.onFinish} initialValues={this.props.dataSource} name="create-single" {...formItemLayout}>
                     <Form.Item name="score" label="分值" rules={[{required: true,message: '请输入分值'},]}>
                         <InputNumber min={1} max={100}/>
                     </Form.Item>

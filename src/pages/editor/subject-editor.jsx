@@ -7,9 +7,9 @@ import ShortSubjectEditor from "./short-subject-editor";
 import ProgramSubjectEditor from "./program-subject-editor";
 export default class SubjectEditor extends React.Component{
     render() {
-        let {dataSource,onFinish} = this.props;
+        let {type,dataSource,onFinish} = this.props;
         let component;
-        switch(dataSource.type){
+        switch(type){
             case '单选题':
                 component=<SingleSubjectEditor dataSource={dataSource} onFinish={onFinish}/>;
                 break;

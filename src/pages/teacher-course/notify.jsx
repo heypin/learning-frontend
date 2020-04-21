@@ -15,7 +15,6 @@ export default class Notify extends React.Component{
     constructor(props) {
         super(props);
         this.courseId = parseInt(props.match.params.id);
-        this.formRef = React.createRef();
         this.updatedNotify={title:"",content:"",ID:0};//要更新的通知,设置表单初始值
         this.state = {
             notifyData:[],
@@ -106,37 +105,34 @@ export default class Notify extends React.Component{
         );
         return (
             <Card title="通知" extra={addNotify} bodyStyle={{padding:20}}
-                  style={{width:"80%",marginLeft:"auto",marginRight:"auto"}}>
+                  style={{width:"80%",marginLeft:"auto",marginRight:"auto",height:"100%"}}>
+                <Modal title="修改通知"  destroyOnClose={true}//加上才会每次打开时初始化表单值
+                       visible={this.state.updateNotifyModal} footer={null}
+                       onCancel={this.cancelUpdateNotifyModal}>
+                    <Form onFinish={this.updateNotify} initialValues={{
+                        title:this.updatedNotify.title,
+                        content:this.updatedNotify.content,
+                    }} name="update-notify" {...formItemLayout}
+                    >
+                        <Form.Item name="title" label="标题"  rules={[{required: true,message: '请输入标题!'},]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name="content" label="内容" rules={[{required: true,message: '请输入内容!'}]}>
+                            <Input.TextArea rows={8}/>
+                        </Form.Item>
+                        <Form.Item {...tailFormItemLayout}>
+                            <Button type="primary" htmlType="submit" style={{width:"100%"}}>
+                                确认修改
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Modal>
                 <List itemLayout="horizontal" dataSource={this.state.notifyData}
                     renderItem={item => (
-                        <List.Item
-                            actions={[(
-                            <div>
-                                <Button type="link"  style={{padding:0}} onClick={()=>{this.showUpdateNotifyModal(item)}}>
-                                    编辑
-                                </Button>
-                                <Modal title="修改通知"  destroyOnClose={true}//加上才会每次打开时初始化表单值
-                                       visible={this.state.updateNotifyModal} footer={null}
-                                       onCancel={this.cancelUpdateNotifyModal}>
-                                    <Form onFinish={this.updateNotify} initialValues={{
-                                            title:this.updatedNotify.title,
-                                            content:this.updatedNotify.content,
-                                        }} name="update-notify" {...formItemLayout}
-                                    >
-                                        <Form.Item name="title" label="标题"  rules={[{required: true,message: '请输入标题!'},]}>
-                                            <Input />
-                                        </Form.Item>
-                                        <Form.Item name="content" label="内容" rules={[{required: true,message: '请输入内容!'}]}>
-                                            <Input.TextArea rows={8}/>
-                                        </Form.Item>
-                                        <Form.Item {...tailFormItemLayout}>
-                                            <Button type="primary" htmlType="submit" style={{width:"100%"}}>
-                                                确认修改
-                                            </Button>
-                                        </Form.Item>
-                                    </Form>
-                                </Modal>
-                            </div>
+                        <List.Item style={{borderBottom:"1px solid lightgray"}} actions={[(
+                            <Button type="link"  style={{padding:0}} onClick={()=>{this.showUpdateNotifyModal(item)}}>
+                                编辑
+                            </Button>
                         ),(
                             <Popconfirm title="确定删除通知" onConfirm={() => {this.deleteNotify(item.ID)}}>
                                 <Button type="link" style={{padding:0}}>删除</Button>
