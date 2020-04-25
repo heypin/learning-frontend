@@ -10,6 +10,8 @@ import {connect} from 'react-redux';
 import {getUser} from "./store/actions";
 import Editor from "./pages/editor/editor";
 import DoHomework from "./pages/homework/doHomework";
+import MarkHomework from "./pages/homework/markHomework";
+import ViewHomework from "./pages/homework/viewHomework";
 
 
 class App extends React.Component{
@@ -35,6 +37,8 @@ class App extends React.Component{
                         <Route path='/teacher-course/:id' component={TeacherCourse}/>
                         <Route path="/editor" component={Editor}/>
                         <Route path="/doHomework" component={DoHomework}/>
+                        <Route path="/markHomework" component={MarkHomework}/>
+                        <Route path="/viewHomework" component={ViewHomework}/>
                         {/*<Route path='/account'  render={(props)=>{*/}
                         {/*  return <Account user={this.state.user} {...props}/>*/}
                         {/*}}/>*/}

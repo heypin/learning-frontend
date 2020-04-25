@@ -5,7 +5,7 @@ import Home from "./home";
 import Classes from "./class";
 import Resource from "./resource";
 import Notify from "./notify";
-import Homework from "./homework";
+import Homework from "./homework/homework";
 import Discuss from "./discuss/discuss";
 import Exam from "./exam";
 const { Header } = Layout;
