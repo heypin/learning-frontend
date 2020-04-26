@@ -54,7 +54,7 @@ class HomeworkComponent extends React.Component{
     constructor(props) {
         super(props);
         this.courseId = parseInt(props.match.params.id);
-        this.updatedHomeworkPublish=0;//要更新的发布数据
+        this.updatedHomeworkPublish={};//要更新的发布数据
         this.state={
             homeworkPublishData:[],
             homeworkSubmitData:[],

@@ -9,8 +9,13 @@ const {Sider,Content,Header}= Layout;
 export default class Editor extends React.Component{
     constructor(props) {
         super(props);
-        let str = queryString.parse(props.location.search.slice(1)).homeworkLibId.toString();
-        this.homeworkLibId=parseInt(str);
+        let query = queryString.parse(props.location.search.slice(1));
+        if(query.homeworkLibId){
+            this.homeworkLibId=parseInt(query.homeworkLibId.toString());
+        }
+        if(query.examLibId){
+            this.examLibId=parseInt(query.examLibId.toString());
+        }
         this.editingSujectId=0;
         this.state={
             subjects:[],
@@ -28,9 +33,14 @@ export default class Editor extends React.Component{
     };
     loadSubjectData=async ()=>{
         try {
-            const result = await Request.getHomeworkLibItemsByLibId(this.homeworkLibId);
-            console.log(result);
-            this.setState({subjects:result});
+            if(this.homeworkLibId){//代表编辑作业库，否则是试题库
+                const result = await Request.getHomeworkLibItemsByLibId(this.homeworkLibId);
+                this.setState({subjects:result});
+            }else{
+                const result = await Request.getExamLibItemsByLibId(this.examLibId);
+                this.setState({subjects:result});
+            }
+
         }catch (e) {
             message.error("获取数据失败");
         }
@@ -40,7 +50,13 @@ export default class Editor extends React.Component{
     }
     createSubject=async (values)=>{
         try{
-            await Request.createHomeworkLibItem(values);
+            console.log(values);
+            if(this.homeworkLibId){
+
+                await Request.createHomeworkLibItem(values);
+            }else{
+                await Request.createExamLibItemAndOptions(values);
+            }
             message.success("创建成功");
             this.loadSubjectData();
         }catch (e) {
@@ -49,7 +65,11 @@ export default class Editor extends React.Component{
     };
     modifySubject=async (values)=>{
       try{
-          await Request.updateHomeworkLibItemAndOptions(values);
+          if(this.homeworkLibId){
+              await Request.updateHomeworkLibItemAndOptions(values);
+          }else{
+              await Request.updateExamLibItemAndOptions(values);
+          }
           message.success("修改成功");
           this.loadSubjectData();
       }catch (e) {
@@ -58,7 +78,11 @@ export default class Editor extends React.Component{
     };
     deleteSubject=async (record)=>{
       try{
-          await Request.deleteHomeworkLibItemById(record.ID);
+          if(this.homeworkLibId){
+              await Request.deleteHomeworkLibItemById(record.ID);
+          }else{
+              await Request.deleteExamLibItemById(record.ID);
+          }
           this.createSubjectEditor('');
           message.success("删除成功");
           this.loadSubjectData();
@@ -68,13 +92,25 @@ export default class Editor extends React.Component{
     };
     onFinish=(values)=>{
         if(this.state.editingStatus==='create'){
-            this.createSubject({homeworkLibId:this.homeworkLibId,...values});
+            if(this.homeworkLibId){
+                this.createSubject({homeworkLibId:this.homeworkLibId,...values});
+            }else{
+                this.createSubject({examLibId:this.examLibId,...values});
+            }
         }else if(this.state.editingStatus==='modify'){
-            this.modifySubject({
-                Id:this.editingSujectId,
-                homeworkLibId:this.homeworkLibId,
-                ...values
-            });
+            if(this.homeworkLibId){
+                this.modifySubject({
+                    Id:this.editingSujectId,
+                    homeworkLibId:this.homeworkLibId,
+                    ...values
+                });
+            }else{
+                this.modifySubject({
+                    Id:this.editingSujectId,
+                    examLibId:this.examLibId,
+                    ...values
+                })
+            }
         }
     };
 

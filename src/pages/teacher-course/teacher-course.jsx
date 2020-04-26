@@ -7,7 +7,7 @@ import Resource from "./resource";
 import Notify from "./notify";
 import Homework from "./homework/homework";
 import Discuss from "./discuss/discuss";
-import Exam from "./exam";
+import Exam from "./exam/exam";
 const { Header } = Layout;
 export default class TeacherCourse extends React.Component{
     constructor(props) {

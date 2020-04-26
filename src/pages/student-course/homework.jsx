@@ -27,6 +27,10 @@ export default class Homework extends React.Component{
         let query=`homeworkPublishId=${item.ID}&homeworkLibId=${item.homeworkLibId}`;
         this.props.history.push({pathname:"/doHomework",search:query});
     };
+    goToViewHomeworkPage=(item)=>{
+        let query=`homeworkPublishId=${item.ID}&homeworkLibId=${item.homeworkLibId}`;
+        this.props.history.push({pathname:"/viewHomework",search:query});
+    };
     getSubmitStatus=(item)=>{
         let beginTime=new Date(item.beginTime).getTime();
         let endTime=new Date(item.endTime).getTime();
@@ -58,12 +62,12 @@ export default class Homework extends React.Component{
                             return (<Col span={8} key={item.ID}>
                                     <Card title={item.homeworkLib.name} actions={[
                                         <div style={{display:"flex",justifyContent:"space-between",paddingLeft:20,paddingRight:20}}>
-                                            {status==="已完成"?<span>{item.submitRecord.totalScore}</span>:<div/>}
+                                            {status==="已完成"?<span><span style={{color:"red",fontSize:20}}>{item.submitRecord.totalScore}</span> 分</span>:<div/>}
                                             {( ()=>{
                                                 if(status==="未开始"){
                                                     return <Button disabled={true}>编辑</Button>
                                                 }else if(status==="已完成"||status==="已过期"){
-                                                    return <Button onClick={()=>this.goToFinishHomeworkPage(item)}>查看</Button>
+                                                    return <Button onClick={()=>this.goToViewHomeworkPage(item)}>查看</Button>
                                                 }else if(status==="待批阅"){
                                                     return <Button onClick={()=>this.goToFinishHomeworkPage(item)}>重新编辑</Button>
                                                 }else if(status==="待完成"){
@@ -75,6 +79,7 @@ export default class Homework extends React.Component{
                                     }>
                                         <div>开始时间:{moment(item.beginTime).format("YYYY-MM-DD HH:mm:ss")}</div>
                                         <div>结束时间:{moment(item.endTime).format("YYYY-MM-DD HH:mm:ss")}</div>
+                                        <div>总分:{item.homeworkLib.totalScore}分</div>
                                         <div>状态:{status}</div>
                                     </Card>
                             </Col>)

@@ -83,7 +83,7 @@ class CourseComment extends React.Component {
     };
     render() {
         return (
-            <Card title={`${this.state.commentData.length}条评论`} bodyStyle={{padding:20}}
+            <Card title={`${this.state.commentData.length}条讨论`} bodyStyle={{padding:20}}
                   extra={<Button type="primary" onClick={this.createComment}>
                             添加评论
                         </Button>}

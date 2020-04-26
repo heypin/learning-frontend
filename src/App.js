@@ -12,6 +12,8 @@ import Editor from "./pages/editor/editor";
 import DoHomework from "./pages/homework/doHomework";
 import MarkHomework from "./pages/homework/markHomework";
 import ViewHomework from "./pages/homework/viewHomework";
+import DoExam from "./pages/exam/doExam";
+import MarkExam from "./pages/exam/markExam";
 
 
 class App extends React.Component{
@@ -39,6 +41,8 @@ class App extends React.Component{
                         <Route path="/doHomework" component={DoHomework}/>
                         <Route path="/markHomework" component={MarkHomework}/>
                         <Route path="/viewHomework" component={ViewHomework}/>
+                        <Route path="/doExam" component={DoExam}/>
+                        <Route path="/markExam" component={MarkExam}/>
                         {/*<Route path='/account'  render={(props)=>{*/}
                         {/*  return <Account user={this.state.user} {...props}/>*/}
                         {/*}}/>*/}
