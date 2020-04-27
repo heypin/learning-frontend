@@ -90,6 +90,7 @@ class ExamLibComponent extends React.Component{
                 message.info("该班级已发布过,不能重复发布")
             }else{
                 message.success("发布成功");
+                this.cancelPublishLibModal();
             }
         }catch (e) {
             message.error("发布失败");

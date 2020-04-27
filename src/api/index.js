@@ -16,7 +16,11 @@ export default {
     getChildFile:(file)=>ajax(`/file/children`,file,'GET'),
     createFile:(file)=>ajax(`/file`,file,'POST'),
     createFolder:(file)=>ajax(`/file/folder`,file,'POST'),
+
     downloadFile:(id)=>download(`/file/download?id=${id}`),
+    exportExamToExcel:(id)=>download(`/exam/excel?examPublishId=${id}`),
+    exportHomeworkToExcel:(id)=>download(`/homework/excel?homeworkPublishId=${id}`),
+
     deleteFile:(id)=>ajax(`/file`,{id:id},'DELETE'),
     getChapterByCourseId:(courseId)=>ajax(`/chapter`,{courseId:courseId}),
     createChapter:(chapter)=>ajax(`/chapter`,chapter,'POST'),
@@ -76,4 +80,5 @@ export default {
     startExam:(submit)=>ajax(`/examSubmit/start`,submit,'POST'),
     finishExam:(submit)=>ajax(`/examSubmit/finish`,submit,'PUT'),
     updateExamSubmitItemsScore:(submit)=>ajax(`/examSubmit/score`,submit,'PUT'),
+    getRegisterCode:(email)=>ajax(`/register/code`,{email:email}),
 }

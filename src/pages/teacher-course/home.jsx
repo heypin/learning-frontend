@@ -160,7 +160,7 @@ export default class Home extends React.Component{
                         )})}
                     </Menu>
                 </Sider>
-                <Content>
+                <Content className="content">
                     <div>
                         <div style={{display:"flex",justifyContent:"flex-end"}}>
                             <div>
@@ -217,7 +217,7 @@ export default class Home extends React.Component{
                                     </Button>
                                 </Modal>
                             </div>
-                            <Popconfirm title="确定删除视频" onConfirm={() => {this.deleteChapterVideo()}}>
+                            <Popconfirm title="确定删除视频" placement={"bottom"} onConfirm={() => {this.deleteChapterVideo()}}>
                                 <Button type="primary" style={{margin:5}}
                                         disabled={this.state.chapters.length===0||
                                         this.state.selectedVideoName===""||
@@ -225,7 +225,7 @@ export default class Home extends React.Component{
                                     删除视频
                                 </Button>
                             </Popconfirm>
-                            <Popconfirm title="确定删除目录" onConfirm={() => {this.deleteChapter()}}>
+                            <Popconfirm title="确定删除目录" placement={"bottom"} onConfirm={() => {this.deleteChapter()}}>
                                 <Button type="primary" disabled={this.state.chapters.length===0} style={{margin:5}}>删除目录</Button>
                             </Popconfirm>
                         </div>

@@ -10,9 +10,8 @@ axios.interceptors.request.use(function (config) {
         token = window.localStorage.getItem('admin_token');
     }else{
         token = window.localStorage.getItem('token');
-
     }
-    if (token !=='' || token !==undefined ) {
+    if (token) {
         config.headers['Authorization'] = token
     }
     return config;
@@ -70,8 +69,7 @@ export function download(url) {
             link.href = URL.createObjectURL(blob);
             //用split简单的获取文件名
             let filename=res.headers["content-disposition"].split("filename=").pop().toString();
-            console.log(res,filename);
-            link.download = filename;
+            link.download = decodeURI(filename);//后端对文件名进行了url编码防止乱码，这里解码
             link.style.display = "none";
             document.body.appendChild(link);
             link.click();

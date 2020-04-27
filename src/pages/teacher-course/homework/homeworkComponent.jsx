@@ -3,25 +3,30 @@ import {withRouter} from "react-router";
 import {Button, Card, Col, DatePicker, Form, message, Modal, Row, Select, Space, Switch, Table} from "antd";
 import moment from "moment";
 import Request from "../../../api";
-import {ArrowLeftOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined, DownloadOutlined} from "@ant-design/icons";
 import queryString from "querystring";
 
 const formItemLayout = {labelCol: {span:4}, wrapperCol: {span:20}};
 const tailFormItemLayout = {wrapperCol: {span:16,offset:4}};
 class HomeworkComponent extends React.Component{
     columns=[
-        {title: '帐号', dataIndex: ['user','email'],width:"20%",align:'center'},
+        {title: '帐号', dataIndex: ['user','email'],width:"15%",align:'center'},
         {title: '姓名', dataIndex: ['user','realName'],width:"10%",align:'center'},
         {title:'学号',dataIndex:['user','number'],width:"10%",align:'center'},
-        {title:'总分',dataIndex:'totalScore',width:"10%",align:'center'},
-        {title:'提交时间',dataIndex:'UpdatedAt',width:"20%",align:'center',
+        {title:'总分',dataIndex:'totalScore',width:"5%",align:'center'},
+        {title:'首次提交时间',dataIndex:'CreatedAt',width:"20%",align:'center',
+            render:(text)=>{
+                return moment(text).format('YYYY-MM-DD HH:mm:ss');
+            }
+        },
+        {title:'更新时间',dataIndex:'UpdatedAt',width:"20%",align:'center',
             render:(text)=>{
                 return moment(text).format('YYYY-MM-DD HH:mm:ss');
             }
         },
         {title:'状态',dataIndex:'mark',width:"10%",align:'center',
             render:(text)=>{
-                if(text===0) return <span style={{color:"red"}}>未批阅</span>
+                if(text===0) return <span style={{color:"red"}}>未批阅</span>;
                 else if(text===1) return <span>已批阅</span>
             }
         },
@@ -128,7 +133,6 @@ class HomeworkComponent extends React.Component{
     };
     loadHomeworkPublishData=async (classId)=>{
         try{
-            console.log("publish",classId);
             const result=await Request.getHomeworkPublishesByClassId(classId);
             this.setState({homeworkPublishData:result})
         }catch (e) {
@@ -154,11 +158,19 @@ class HomeworkComponent extends React.Component{
         if(this.props.location !== prevProps.location){//根据路由变化决定显示发布的作业数据页面还是具体的提交数据页面
             this.setSubmitRecordVisible();
         }
-    }
+    };
     componentDidMount() {
         this.loadClassData();
         this.setSubmitRecordVisible();
-    }
+    };
+    downloadHomeworkExcel=async ()=>{
+        try{
+            console.log(this.examPublishId);
+            await Request.exportHomeworkToExcel(this.homeworkPublishId);
+        }catch (e) {
+            message.error("下载出错");
+        }
+    };
     setSubmitRecordVisible=()=>{//提交的作业记录表格是否可见
         if(this.setHomeworkPublishId()){
             this.setState({submitRecordVisible:true});
@@ -226,6 +238,7 @@ class HomeworkComponent extends React.Component{
             <div>
                 <div style={{marginBottom:10}}>
                     <Button type="link" icon={<ArrowLeftOutlined/>} onClick={this.cancelHomeworkSubmitRecord}>返回</Button>
+                    <Button type="primary" icon={<DownloadOutlined/>} onClick={this.downloadHomeworkExcel}>导出成绩到Excel</Button>
                 </div>
                 <Table bordered  columns={this.columns} dataSource={this.state.homeworkSubmitData}
                        pagination={false} rowKey={record=>record.ID}

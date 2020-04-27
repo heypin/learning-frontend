@@ -1,28 +1,11 @@
 import React from "react";
 import {Table, Popconfirm, Button, Modal, Form, Input,Upload,message} from 'antd';
-import { Resizable } from 'react-resizable';
 import { UploadOutlined } from '@ant-design/icons';
 import './teacher-course.less'
 import Request from "../../api";
 import moment from "moment";
 import folder from "../../assets/folder.png";
 import queryString from "querystring";
-const ResizeableTitle = props => {
-    const { onResize, width, ...restProps } = props;
-    if (!width) {return <th {...restProps} />;}
-    return (
-        <Resizable width={width} height={0} onResize={onResize}
-                   handle={resizeHandle => (
-                <span className={`react-resizable-handle react-resizable-handle-${resizeHandle}`}
-                    onClick={e => {e.stopPropagation();}}/>
-            )}
-            draggableOpts={{ enableUserSelectHack: false }}
-        >
-            <th {...restProps} />
-        </Resizable>
-    );
-};
-
 export default class Resource extends React.Component{
     constructor(props) {
         super(props);
@@ -45,7 +28,6 @@ export default class Resource extends React.Component{
             this.loadFileData();
         }
     }
-
     fileColumns=[
         {width: 600, title: '文件名', dataIndex: 'filename',
             render:(text,record)=>{
@@ -115,16 +97,6 @@ export default class Resource extends React.Component{
         }
 
     };
-    handleResize = index => (e, { size }) => {
-        this.setState(({ columns }) => {
-            const nextColumns = [...columns];
-            nextColumns[index] = {
-                ...nextColumns[index],
-                width: size.width,
-            };
-            return { columns: nextColumns };
-        });
-    };
     showNewFolderModal=()=>{this.setState({newFolderVisible:true});};
     showNewFileModal=()=>{this.setState({newFileVisible:true,});};
     handleNewFolderCancel=()=>{this.setState({newFolderVisible:false});};
@@ -177,7 +149,6 @@ export default class Resource extends React.Component{
           message.error("获取文件数据失败");
       }
     };
-
     onRemove = (file) => {
         this.setState(state => {
             const index = state.fileList.indexOf(file);
@@ -207,26 +178,9 @@ export default class Resource extends React.Component{
         fileData=folder.concat(file);
         return fileData;
     };
-    components = {
-        header: {
-            cell: ResizeableTitle,
-        },
-    };
     render() {
-        const columns = this.state.columns.map((col, index) => ({
-            ...col,
-            onHeaderCell: column => ({
-                width: column.width,
-                onResize: this.handleResize(index),
-            }),
-        }));
-        const formItemLayout = {
-            labelCol: {span:4},
-            wrapperCol: {span:16},
-        };
-        const tailFormItemLayout = {
-            wrapperCol: {span:16,offset:4},
-        };
+        const formItemLayout = {labelCol: {span:4}, wrapperCol: {span:16},};
+        const tailFormItemLayout = {wrapperCol: {span:16,offset:4},};
         const {fileList,uploading} = this.state;
         return (
             <div>
@@ -270,9 +224,7 @@ export default class Resource extends React.Component{
                         </Modal>
                     </div>
                 </div>
-                <Table bordered  columns={columns} dataSource={this.state.fileData}
-                       components={this.components} pagination={false}
-                       rowKey={record=>record.ID}
+                <Table bordered columns={this.fileColumns} dataSource={this.state.fileData} pagination={false} rowKey={record=>record.ID}
                        onRow={(record)=> {
                            return {
                                onDoubleClick: event => {

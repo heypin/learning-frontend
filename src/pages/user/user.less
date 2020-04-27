@@ -4,11 +4,11 @@
     padding: 0;
     background-color: rgb(76,76,76);
     color:white;
-    height: 50px;
+    height: 60px;
     .logo{
-      height: 40px;
+      height: 60px;
       float: left;
-      line-height: 50px;
+      line-height: 60px;
       font-size: 20px;
       margin-left: 30px;
     }
@@ -16,31 +16,37 @@
       float: right;
       background-color: transparent;
       color: white;
+      height: 60px;
+      line-height: 60px;
       border-bottom-color: transparent;
       .subMenu{
         border-bottom-color: transparent;
       }
     }
   }
-
-  .sider{
-    .ant-menu-item{
-      color: black;
-      padding-left: 50px !important;
-      font-size: 18px;
-      height: 45px;
-      line-height: 45px;
-    }
-    .ant-menu-item-selected{
-      background-color: #007bff;
-      color:white;
-    }
-  }
   .body{
     height: 100%;
-    background-color: white;
-    .card{
+    .sider{
       height: 100%;
+      .ant-menu-item{
+        color: black;
+        padding-left: 50px !important;
+        font-size: 18px;
+        height: 45px;
+        line-height: 45px;
+      }
+      .ant-menu-item-selected{
+        background-color: #007bff;
+        color:white;
+      }
+    }
+    .content{
+      height: 100%;
+      background-color: white;
+      .card{
+        height: 100%;
+      }
     }
   }
+
 }

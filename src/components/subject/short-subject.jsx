@@ -52,7 +52,7 @@ export default class ShortSubject extends React.Component{
                     <span style={{color:"#aeaeae"}}>({dataSource.score}分)</span>
                     <span style={{color:"#333"}}>{dataSource.question}</span>
                 </p>
-                <div style={{width:"100%"}}>
+                <div style={{width:"100%",marginBottom:10}}>
                     <Input.TextArea rows={8} value={this.state.value} onChange={this.onChange}/>
                 </div>
                 <div style={{width:"100%",height:40}}>

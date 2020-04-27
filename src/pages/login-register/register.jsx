@@ -1,25 +1,52 @@
 import React from "react";
-import {Form, Input, Row, Col, Button, message, Radio,} from 'antd';
-
+import {Form, Input, Row, Col, Button, message,} from 'antd';
 import LoginRegister from "./loginRegister";
-import request from "../../api";
+import Request from "../../api";
+import Timer from "../../components/Timer";
 
 export default class Register extends React.Component{
     userRegister = async (user)=>{
         try{
-            const result=await request.userRegister(user);
+            await Request.userRegister(user);
             message.success("注册成功!");
             this.props.history.push("/login");
         }catch (e) {
-            if(e.response.status===400){
-                message.error("格式不正确！")
-            }else {
-                message.error("用户已注册！");
+            let err="";
+            if(e.response.data.err){
+                err=e.response.data.err;
             }
+            message.error("注册失败!"+err)
         }
     };
     onFinish=(values)=>{
         this.userRegister(values);
+    };
+    constructor(props) {
+        super(props);
+        this.state={
+            getCaptchaVisible:true,
+        };
+        this.formRef=React.createRef();
+    }
+    onTimerFinish=()=>{
+      this.setState({getCaptchaVisible:true});
+    };
+    componentDidMount() {
+        console.log(this.formRef.current.getFieldValue("email"))
+    }
+    getCaptcha=async ()=>{
+        try{
+            let email=this.formRef.current.getFieldValue("email");
+            if(email){
+                await Request.getRegisterCode(email);
+                message.success("获取验证码成功");
+                this.setState({getCaptchaVisible:false});
+            }else{
+                message.error("请先填邮箱");
+            }
+        }catch (e) {
+            message.error("获取验证码失败");
+        }
     };
     render() {
         const formItemLayout = {
@@ -46,7 +73,7 @@ export default class Register extends React.Component{
         };
         return (
             <LoginRegister type='register'>
-                <Form {...formItemLayout} name="register"
+                <Form ref={this.formRef} {...formItemLayout} name="register"
                       onFinish={this.onFinish} scrollToFirstError
                 >
                     <Form.Item name="email" label="邮箱"
@@ -95,7 +122,11 @@ export default class Register extends React.Component{
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
-                                <Button style={{float:"right"}}>获取邮箱验证码</Button>
+                                {this.state.getCaptchaVisible?
+                                    <Button style={{float:"right"}} onClick={this.getCaptcha}>获取邮箱验证码</Button>:
+                                    <Button style={{float:"right"}} disabled={true}><Timer onlySecond={true} onFinish={this.onTimerFinish} seconds={60}/>后获取</Button>
+                                }
+
                             </Col>
                         </Row>
                     </Form.Item>

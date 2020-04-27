@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import {Button, Card, Divider, Form, Input, message, Modal, Space, Table} from "antd";
+import {Button, Divider, Form, Input, message, Modal, Space, Table} from "antd";
 import Request from "../../../api";
 import {withRouter} from "react-router";
 import PublishHomeworkForm from "./publish-homework-form";
@@ -92,6 +92,7 @@ class HomeworkLibComponent extends React.Component{
                 message.info("该班级已发布过,不能重复发布")
             }else{
                 message.success("发布成功");
+                this.cancelPublishLibModal();
             }
         }catch (e) {
             message.error("发布失败");

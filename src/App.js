@@ -17,14 +17,11 @@ import MarkExam from "./pages/exam/markExam";
 
 
 class App extends React.Component{
-    getUserInfoByToken(){
+    componentDidMount(){
         let token = window.localStorage.getItem("token");
-        if(token !=="" || token!==undefined){
+        if(token){
             this.props.getUser();
         }
-    }
-    componentDidMount(){
-        this.getUserInfoByToken();
     }
     render() {
         return (

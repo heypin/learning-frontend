@@ -82,7 +82,9 @@ export default class SingleSubject extends React.Component{
                 </div>
                 <div style={{width:"100%",height:40}}>
                     {this.props.answerVisible?<span style={{float:"left",color:"black",fontSize:15}}>正确答案:{this.props.dataSource.answer}</span>:null}
-                    {this.props.inputVisible?<span style={{float:"right",color:"black",fontSize:14}}>得分: <InputNumber onChange={this.onInputChange} value={this.state.inputValue}  min={0} max={this.props.dataSource.score}/></span>:null}
+                    {this.props.inputVisible?<span style={{float:"right",color:"black",fontSize:14}}>
+                        得分: <InputNumber onChange={this.onInputChange} value={this.state.inputValue}  min={0} max={this.props.dataSource.score}/>
+                    </span>:null}
                 </div>
             </div>
         )

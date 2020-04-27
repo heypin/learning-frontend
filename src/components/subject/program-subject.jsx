@@ -96,7 +96,7 @@ export default class ProgramSubject extends React.Component{
                                     &nbsp;&nbsp;fmt.Println("Hello, 世界")<br/>
                                  }`
                         }}/>
-                        <span>js: log("hello world");//输出使用log而不是conosole.log</span>
+                        <span>JavaScript：console.log("hello world");</span>
                     </div>:null}
                     <p style={{color:"black"}}>{this.state.output}</p>
                 </div>

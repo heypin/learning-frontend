@@ -37,8 +37,8 @@ export default class TeachCourse extends React.Component{
         }
         try{
             await Request.createCourse(formData);
-            message.success("创建成功");
             this.handleCancel();
+            message.success("创建成功");
         }catch (e) {
             message.error("创建失败");
         }
@@ -106,7 +106,7 @@ export default class TeachCourse extends React.Component{
             </div>
         );
         return (
-            <Card title="我教的课" extra={createCourseForm}>
+            <Card style={{height:"100%"}} title="我教的课" extra={createCourseForm}>
                 <Row gutter={16}>
                     {
                         this.state.courses.map((item)=>{

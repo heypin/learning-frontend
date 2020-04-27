@@ -1,21 +1,27 @@
 import React from "react";
 import { Layout, Menu,Avatar } from 'antd';
-import {UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import {ReadOutlined, UserOutlined} from '@ant-design/icons';
 import "./user.less"
 import {connect} from 'react-redux';
 import Constant from "../../utils/constant";
 import {Switch,Route,Redirect} from 'react-router-dom';
-import CourseInfo from "./course-info";
+import StudyCourse from "./study-course";
 import PersonalInfo from "./personal-info";
 import TeachCourse from "./teach-course";
+import {getUser} from "../../store/actions";
 const { Header, Content, Sider } = Layout;
 class User extends React.Component{
     logout=()=>{
-        window.localStorage.removeItem("student_token");
+        window.localStorage.removeItem("token");
         this.props.history.push("/login");
     };
-    onUserMenuClick=(config)=>{
-        let {key} = config;
+    componentDidMount(){
+        let token = window.localStorage.getItem("token");
+        if(token){
+            this.props.getUser();
+        }
+    }
+    onUserMenuClick=({key})=>{
         if(key==="logout"){
             this.logout();
         }
@@ -30,9 +36,9 @@ class User extends React.Component{
         }
     };
     menuData=[
-        {key:"1", path:"/user/course-info", text:"我的课程", icon:<UserOutlined />},
-        {key:"2",path:"/user/teach-course", text:"我教的课",icon:<VideoCameraOutlined />},
-        {key:"3",path:"/user/personal-info", text:"我的信息",icon:<VideoCameraOutlined />},
+        {key:"1", path:"/user/study-course", text:"我学的课", icon:<ReadOutlined/>},
+        {key:"2",path:"/user/teach-course", text:"我教的课",icon:<ReadOutlined />},
+        {key:"3",path:"/user/personal-info", text:"我的信息",icon:<UserOutlined />},
     ];
     //输入路径名或点击返回时能正确显示菜单选中状态
     getSelectedKey=()=> {
@@ -64,7 +70,7 @@ class User extends React.Component{
                         </Menu.SubMenu>
                     </Menu>
                 </Header>
-                <Layout>
+                <Layout className="body">
                     <Sider className="sider" theme="light" breakpoint="lg" collapsedWidth="0" width="250">
                         <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}
                               selectedKeys={selectedKey} className="menu" onClick={this.onSiderMenuClick}
@@ -81,10 +87,10 @@ class User extends React.Component{
                             }
                         </Menu>
                     </Sider>
-                    <Content className="body">
+                    <Content className="content">
                         <Switch>
-                            <Redirect from="/user" exact to="/user/course-info"/>
-                            <Route path="/user/course-info" component={CourseInfo}/>
+                            <Redirect from="/user" exact to="/user/study-course"/>
+                            <Route path="/user/study-course" component={StudyCourse}/>
                             <Route path="/user/teach-course" component={TeachCourse}/>
                             <Route path="/user/personal-info" component={PersonalInfo}/>
                         </Switch>
@@ -94,4 +100,4 @@ class User extends React.Component{
         )
     }
 }
-export default connect(state=>({user:state.user}))(User)
+export default connect(state=>({user:state.user}),{getUser})(User)

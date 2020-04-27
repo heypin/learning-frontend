@@ -3,7 +3,7 @@ import {withRouter} from "react-router";
 import {Button, Card, Col, DatePicker, Form, InputNumber, message, Modal, Row, Select, Space, Table} from "antd";
 import moment from "moment";
 import Request from "../../../api";
-import {ArrowLeftOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined, DownloadOutlined} from "@ant-design/icons";
 import queryString from "querystring";
 const formItemLayout = {labelCol: {span:4}, wrapperCol: {span:20}};
 const tailFormItemLayout = {wrapperCol: {span:16,offset:4}};
@@ -149,7 +149,14 @@ class ExamComponent extends React.Component{
     onSelectChange=(value)=>{
         this.loadExamPublishData(value);
     };
-
+    downloadExamExcel=async ()=>{
+      try{
+          console.log(this.examPublishId);
+          await Request.exportExamToExcel(this.examPublishId)
+      }catch (e) {
+          message.error("下载出错");
+      }
+    };
     render() {
         const examPublishList=(
             <div>
@@ -206,6 +213,7 @@ class ExamComponent extends React.Component{
             <div>
                 <div style={{marginBottom:10}}>
                     <Button type="link" icon={<ArrowLeftOutlined/>} onClick={this.cancelExamSubmitRecord}>返回</Button>
+                    <Button type="primary" icon={<DownloadOutlined/>} onClick={this.downloadExamExcel}>导出成绩到Excel</Button>
                 </div>
                 <Table bordered  columns={this.columns} dataSource={this.state.examSubmitData}
                        pagination={false} rowKey={record=>record.ID}

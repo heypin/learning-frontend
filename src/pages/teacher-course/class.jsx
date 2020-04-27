@@ -52,6 +52,7 @@ export default class Classes extends React.Component{
     loadClassMemberData=async (classId)=>{
         try{
             const result=await Request.getUsersByClassId(classId);
+            console.log("classMember",result)
             this.setState({users:result});
         }catch (e) {
             console.log(e);
@@ -62,6 +63,7 @@ export default class Classes extends React.Component{
             const result=await Request.getClassesByCourseId(this.courseId);
             if(result.length!==0){
                 this.setState({selectedClass:result[0]});
+                this.loadClassMemberData(result[0].ID);
             }
             this.setState({classes:result});
         }catch (e) {
@@ -139,7 +141,7 @@ export default class Classes extends React.Component{
                         )})}
                     </Menu>
                 </Sider>
-                <Content>
+                <Content className="content">
                     <Card title={cardTitle} style={{height:"100%"}} extra={cardExtra}>
                         <Table bordered  columns={this.columns} dataSource={this.state.users}
                                pagination={false} rowKey={record=>record.ID}

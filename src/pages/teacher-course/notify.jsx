@@ -85,7 +85,7 @@ export default class Notify extends React.Component{
                 <Button type="primary" onClick={this.showAddNotifyModal}>
                     添加通知
                 </Button>
-                <Modal title="添加通知" onCancel={this.cancelAddNotifyModal}
+                <Modal title="添加通知" onCancel={this.cancelAddNotifyModal} destroyOnClose={true}
                        visible={this.state.addNotifyModal} footer={null}>
                     <Form name="add-notify" onFinish={this.addNotify}{...formItemLayout}>
                         <Form.Item name="title" label="标题"  rules={[{required: true,message: '请输入标题!'},]}>

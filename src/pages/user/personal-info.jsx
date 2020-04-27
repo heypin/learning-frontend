@@ -2,7 +2,6 @@ import React from "react";
 import {Button, Form, Input, Radio, Row, Col, Card, message} from "antd";
 import {connect} from 'react-redux';
 import request from "../../api";
-import {PlusOutlined} from "@ant-design/icons";
 import PictureUpload from "../../components/PictureUpload";
 class PersonalInfo extends React.Component{
     constructor(props) {
@@ -62,9 +61,6 @@ class PersonalInfo extends React.Component{
     }
     componentDidUpdate(prevProps,prevState, snapshot) {
         if(this.state.key==='info'){
-            // if(this.hasInitForm===false){
-            // }
-            // this.hasInitForm=true;
             this.initPersonalInfoForm();
         }
     }
@@ -74,19 +70,8 @@ class PersonalInfo extends React.Component{
             {key: 'info', tab: '我的信息',},
             {key: 'password', tab: '修改密码',},
         ];
-        const formItemLayout = {
-            labelCol: {span:4},
-            wrapperCol: {span:16},
-        };
-        const tailFormItemLayout = {
-            wrapperCol: {span:16,offset:4},
-        };
-        const uploadButton = (
-            <div>
-                <PlusOutlined />
-                <div className="ant-upload-text">Upload</div>
-            </div>
-        );
+        const formItemLayout = {labelCol: {span:4}, wrapperCol: {span:16}};
+        const tailFormItemLayout = {wrapperCol: {span:16,offset:4}};
         const contentList = {
             info: (
                 <Form name="info" onFinish={this.handleUpdateInfo}
@@ -127,7 +112,7 @@ class PersonalInfo extends React.Component{
                     </Form>
             ),
             password:(
-                <Form name="password" {...formItemLayout} onFinish={this.handleUpdatePassword}>
+                <Form name="update-password" {...formItemLayout} onFinish={this.handleUpdatePassword}>
                     <Form.Item name="oldPassword" label="旧密码"
                                rules={[{required: true,  message: '请输入旧密码!'}]}
                                hasFeedback

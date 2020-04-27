@@ -52,7 +52,6 @@ export default class Editor extends React.Component{
         try{
             console.log(values);
             if(this.homeworkLibId){
-
                 await Request.createHomeworkLibItem(values);
             }else{
                 await Request.createExamLibItemAndOptions(values);
@@ -156,7 +155,6 @@ export default class Editor extends React.Component{
                     </Content>
                 </Layout>
             </Layout>
-
         )
     }
 }
