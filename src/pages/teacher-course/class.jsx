@@ -52,7 +52,6 @@ export default class Classes extends React.Component{
     loadClassMemberData=async (classId)=>{
         try{
             const result=await Request.getUsersByClassId(classId);
-            console.log("classMember",result)
             this.setState({users:result});
         }catch (e) {
             console.log(e);

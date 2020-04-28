@@ -1,8 +1,9 @@
 import React from "react";
 import queryString from "querystring";
-import {Card, message,Button} from "antd";
+import {Button, Card, message} from "antd";
 import Request from "../../api";
 import Subject from "../../components/subject/subject";
+
 export default class MarkHomework extends React.Component{
     constructor(props) {
         super(props);
@@ -31,12 +32,10 @@ export default class MarkHomework extends React.Component{
     loadHomeworkUserSubmit=async ()=>{
         try{
             let homeworkSubmit=await Request.getHomeworkSubmitById(this.homeworkSubmitId);
-            let homeworkPublish = await Request.getHomeworkPublishById(homeworkSubmit.homeworkPublishId);
-            this.homeworkPublish=homeworkPublish;
+            this.homeworkPublish=await Request.getHomeworkPublishById(homeworkSubmit.homeworkPublishId);
             const result=await Request.getHomeworkUserSubmitWithItems(homeworkSubmit.homeworkPublishId,homeworkSubmit.userId);
             this.submitData.id=result.ID;
             this.setState({homeworkUserSubmit:result});
-            console.log(result);
         }catch (e) {
             console.log(e);
         }
@@ -55,7 +54,6 @@ export default class MarkHomework extends React.Component{
             homeworkLibItemId:value.dataSource.ID,
             score:value.record.score,
         };
-        console.log(value,this.submitData);
     };
     componentDidMount() {
         this.loadHomeworkLib();
@@ -67,7 +65,7 @@ export default class MarkHomework extends React.Component{
                     {
                         this.state.homeworkLibData.items.map((item,index)=>{
                             let record={answer:""};
-                            this.state.homeworkUserSubmit.submitItems.forEach((submitItem,index)=>{
+                            this.state.homeworkUserSubmit.submitItems.forEach((submitItem)=>{
                                 if(submitItem.homeworkLibItemId===item.ID){
                                     record=submitItem;
                                 }

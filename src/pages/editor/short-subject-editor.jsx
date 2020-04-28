@@ -10,7 +10,8 @@ const tailFormItemLayout = {
 export default class ShortSubjectEditor extends React.Component{
     onFinish=(values)=>{
         if(this.props.onFinish) {
-            let answer=(values.answer||values.answer==='')?' ':values.answer
+            let answer=values.answer;
+            if(!values.answer){answer="";}
             this.props.onFinish({type: "简答题", ...values,answer:answer});
         }
     };

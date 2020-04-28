@@ -14,7 +14,6 @@ export default class Homework extends React.Component{
     loadHomeworkPublishes=async ()=>{
         try{
             const result = await Request.getHomeworkPublishesWithSubmitByClassId(this.classId);
-            console.log(result);
             this.setState({homeworkData:result})
         }catch (e) {
             console.log(e)

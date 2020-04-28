@@ -42,7 +42,6 @@ export default class MarkExam extends React.Component{
     };
     submitExamMark=async ()=>{//提交批阅结果
         try{
-            console.log(this.submitData);
             await Request.updateExamSubmitItemsScore(this.submitData);
             message.success("操作成功");
         }  catch (e) {
@@ -55,7 +54,6 @@ export default class MarkExam extends React.Component{
             examLibItemId:value.dataSource.ID,
             score:value.record.score,
         };
-        console.log(value,this.submitData);
     };
     componentDidMount() {
         this.loadExamLib();
@@ -67,7 +65,7 @@ export default class MarkExam extends React.Component{
                     {
                         this.state.examLibData.items.map((item,index)=>{
                             let record={answer:""};
-                            this.state.examUserSubmit.submitItems.forEach((submitItem,index)=>{
+                            this.state.examUserSubmit.submitItems.forEach((submitItem)=>{
                                 if(submitItem.examLibItemId===item.ID){
                                     record=submitItem;
                                 }

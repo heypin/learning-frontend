@@ -26,7 +26,7 @@ class ExamComponent extends React.Component{
         },
         {title:'状态',dataIndex:'mark',width:"10%",align:'center',
             render:(text)=>{
-                if(text===0) return <span style={{color:"red"}}>未批阅</span>
+                if(text===0) return <span style={{color:"red"}}>未批阅</span>;
                 else if(text===1) return <span>已批阅</span>
             }
         },
@@ -118,7 +118,6 @@ class ExamComponent extends React.Component{
         try{
             const result = await Request.getExamSubmitsByPublishId(examPublishId);
             this.setState({examSubmitData:result});
-            console.log(result);
         }catch (e) {
             console.log(e);
         }
@@ -151,11 +150,38 @@ class ExamComponent extends React.Component{
     };
     downloadExamExcel=async ()=>{
       try{
-          console.log(this.examPublishId);
           await Request.exportExamToExcel(this.examPublishId)
       }catch (e) {
           message.error("下载出错");
       }
+    };
+    getSummary=(pageData)=>{
+        if(pageData.length===0)return null;
+        let scoreArr=[];
+        pageData.forEach(({totalScore})=>{
+            scoreArr.push(totalScore);
+        });
+        let min=scoreArr[0];let max=scoreArr[0];let average=0;
+        scoreArr.forEach((item)=>{
+            min=Math.min(min,item);
+            max=Math.max(max,item);
+            average=average+item;
+        });
+        average=average/scoreArr.length;
+        return (
+            <React.Fragment>
+                <tr>
+                    <th>统计</th>
+                    <td>最低分</td>
+                    <td>{min}分</td>
+                    <td>最高分</td>
+                    <td>{max}分</td>
+                    <td>平均分</td>
+                    <td>{average}分</td>
+                    <td/>
+                </tr>
+            </React.Fragment>
+        )
     };
     render() {
         const examPublishList=(
@@ -216,7 +242,7 @@ class ExamComponent extends React.Component{
                     <Button type="primary" icon={<DownloadOutlined/>} onClick={this.downloadExamExcel}>导出成绩到Excel</Button>
                 </div>
                 <Table bordered  columns={this.columns} dataSource={this.state.examSubmitData}
-                       pagination={false} rowKey={record=>record.ID}
+                       summary={this.getSummary}  pagination={false} rowKey={record=>record.ID}
                 />
             </div>
         );

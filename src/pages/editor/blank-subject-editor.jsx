@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Input, InputNumber, Radio} from "antd";
+import {Button, Form, Input, InputNumber} from "antd";
 const formItemLayout = {
     labelCol: {span:2},
     wrapperCol: {span:16},

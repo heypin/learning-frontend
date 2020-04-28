@@ -85,7 +85,6 @@ class HomeworkLibComponent extends React.Component{
     };
     publishHomework=async (values)=>{
         values={...values,homeworkLibId:this.publishedhomeworkLibId};
-        console.log(values);
         try{
             const result = await Request.publishHomework(values);
             if(result.code===202){

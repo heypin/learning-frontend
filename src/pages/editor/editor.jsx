@@ -50,7 +50,6 @@ export default class Editor extends React.Component{
     }
     createSubject=async (values)=>{
         try{
-            console.log(values);
             if(this.homeworkLibId){
                 await Request.createHomeworkLibItem(values);
             }else{
@@ -119,12 +118,12 @@ export default class Editor extends React.Component{
                 <Header className="header" style={{marginBottom:1}}>
                     <div className="lib-name">编辑器</div>
                     <Space  className="create-button">
-                        <Button type='primary'icon={<PlusOutlined/>}  onClick={()=>this.createSubjectEditor('单选题')}>单选题</Button>
-                        <Button type='primary'icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('判断题')}>判断题</Button>
-                        <Button type='primary'icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('多选题')}>多选题</Button>
-                        <Button type='primary'icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('填空题')}>填空题</Button>
-                        <Button type='primary'icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('简答题')}>简答题</Button>
-                        <Button type='primary'icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('编程题')}>编程题</Button>
+                        <Button type='primary' icon={<PlusOutlined/>}  onClick={()=>this.createSubjectEditor('单选题')}>单选题</Button>
+                        <Button type='primary' icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('判断题')}>判断题</Button>
+                        <Button type='primary' icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('多选题')}>多选题</Button>
+                        <Button type='primary' icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('填空题')}>填空题</Button>
+                        <Button type='primary' icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('简答题')}>简答题</Button>
+                        <Button type='primary' icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('编程题')}>编程题</Button>
                     </Space>
                 </Header>
                 <Layout>

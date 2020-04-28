@@ -12,14 +12,14 @@ class HomeworkComponent extends React.Component{
     columns=[
         {title: '帐号', dataIndex: ['user','email'],width:"15%",align:'center'},
         {title: '姓名', dataIndex: ['user','realName'],width:"10%",align:'center'},
-        {title:'学号',dataIndex:['user','number'],width:"10%",align:'center'},
-        {title:'总分',dataIndex:'totalScore',width:"5%",align:'center'},
-        {title:'首次提交时间',dataIndex:'CreatedAt',width:"20%",align:'center',
+        {title:'学号',dataIndex:['user','number'],width:"15%",align:'center'},
+        {title:'总分',dataIndex:'totalScore',width:"10%",align:'center'},
+        {title:'首次提交时间',dataIndex:'CreatedAt',width:"15%",align:'center',
             render:(text)=>{
                 return moment(text).format('YYYY-MM-DD HH:mm:ss');
             }
         },
-        {title:'更新时间',dataIndex:'UpdatedAt',width:"20%",align:'center',
+        {title:'更新时间',dataIndex:'UpdatedAt',width:"15%",align:'center',
             render:(text)=>{
                 return moment(text).format('YYYY-MM-DD HH:mm:ss');
             }
@@ -143,7 +143,6 @@ class HomeworkComponent extends React.Component{
         try{
             const result = await Request.getHomeworkSubmitsByPublishId(homeworkPublishId);
             this.setState({homeworkSubmitData:result});
-            console.log(result);
         }catch (e) {
             console.log(e);
         }
@@ -165,7 +164,6 @@ class HomeworkComponent extends React.Component{
     };
     downloadHomeworkExcel=async ()=>{
         try{
-            console.log(this.examPublishId);
             await Request.exportHomeworkToExcel(this.homeworkPublishId);
         }catch (e) {
             message.error("下载出错");
@@ -182,7 +180,34 @@ class HomeworkComponent extends React.Component{
     onSelectChange=(value)=>{
         this.loadHomeworkPublishData(value);
     };
-
+    getSummary=(pageData)=>{
+        if(pageData.length===0)return null;
+        let scoreArr=[];
+        pageData.forEach(({totalScore})=>{
+            scoreArr.push(totalScore);
+        });
+        let min=scoreArr[0];let max=scoreArr[0];let average=0;
+        scoreArr.forEach((item)=>{
+            min=Math.min(min,item);
+            max=Math.max(max,item);
+            average=average+item;
+        });
+        average=average/scoreArr.length;
+        return (
+            <React.Fragment>
+                <tr>
+                    <th>统计</th>
+                    <td>最低分</td>
+                    <td>{min}分</td>
+                    <td>最高分</td>
+                    <td>{max}分</td>
+                    <td>平均分</td>
+                    <td>{average}分</td>
+                    <td/>
+                </tr>
+            </React.Fragment>
+        )
+    };
     render() {
         const homeworkPublishList=(
             <div>
@@ -241,7 +266,7 @@ class HomeworkComponent extends React.Component{
                     <Button type="primary" icon={<DownloadOutlined/>} onClick={this.downloadHomeworkExcel}>导出成绩到Excel</Button>
                 </div>
                 <Table bordered  columns={this.columns} dataSource={this.state.homeworkSubmitData}
-                       pagination={false} rowKey={record=>record.ID}
+                       summary={this.getSummary}  pagination={false} rowKey={record=>record.ID}
                 />
             </div>
         );

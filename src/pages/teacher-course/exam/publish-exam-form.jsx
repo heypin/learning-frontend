@@ -1,7 +1,6 @@
 import React from "react";
 import Request from "../../../api";
-import {Button, DatePicker, Form, InputNumber, message, Select, Switch} from "antd";
-import moment from "moment";
+import {Button, DatePicker, Form, InputNumber, message, Select} from "antd";
 const formItemLayout = {labelCol: {span:4}, wrapperCol: {span:20}};
 const tailFormItemLayout = {wrapperCol: {span:16,offset:4}};
 export default class PublishExamForm extends React.Component{

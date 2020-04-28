@@ -1,6 +1,5 @@
 import {ajax} from "./ajax";
 import {download} from './ajax'
-import notify from "../pages/teacher-course/notify";
 export default {
     userLogin:(user)=> ajax(`/login`,user,'POST'),
     userRegister:(user)=>ajax(`/register`,user,'POST'),

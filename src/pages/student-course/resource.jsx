@@ -163,8 +163,7 @@ export default class Resource extends React.Component{
                        rowKey={record=>record.ID}
                        onRow={(record)=> {
                            return {
-                               onDoubleClick: event => {
-                                   console.log(this.parentId,record.ID);
+                               onDoubleClick: () => {
                                    if(record.localFilename===""){//代表是文件夹
                                        this.props.history.push({
                                            pathname:`/student-course/resource`,

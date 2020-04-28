@@ -50,5 +50,6 @@
   "devDependencies": {
     "react-redux": "^7.2.0"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8081",
+  "homepage": "."
 }

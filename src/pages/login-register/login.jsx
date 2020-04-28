@@ -1,7 +1,7 @@
 
 import React from "react";
 import LoginRegister from "./loginRegister";
-import { Form, Input, Button,Radio, message } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import request from '../../api';
@@ -26,7 +26,7 @@ class Login extends React.Component{
     render() {
         return (
             <LoginRegister type='login'>
-                <Form name="login" className="login-form" onFinish={this.onFinish}>
+                <Form initialValues={{email:"2244306600@qq.com",password:"12345678"}} name="login" className="login-form" onFinish={this.onFinish}>
                     <Form.Item name="email"  rules={[
                             {required: true,message: '请输入邮箱!'},
                             {type:'email',message: '格式不正确！'}

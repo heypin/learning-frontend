@@ -16,7 +16,7 @@ export default class ViewHomework extends React.Component{
     }
     loadHomeworkLib=async ()=>{
         try {
-            this.loadHomeworkUserSubmit();
+            await this.loadHomeworkUserSubmit();
             const result=await Request.getHomeworkLibWithItemsById(this.homeworkLibId,"true");
             this.setState({homeworkLibData:result});
         }catch (e) {
@@ -27,7 +27,6 @@ export default class ViewHomework extends React.Component{
         try{
             const result=await Request.getHomeworkUserSubmitWithItems(this.homeworkPublishId);
             this.setState({homeworkUserSubmit:result});
-            console.log(result);
         }catch (e) {
             console.log(e);
         }
@@ -42,7 +41,7 @@ export default class ViewHomework extends React.Component{
                     {
                         this.state.homeworkLibData.items.map((item,index)=>{
                             let record={answer:""};
-                            this.state.homeworkUserSubmit.submitItems.forEach((submitItem,index)=>{
+                            this.state.homeworkUserSubmit.submitItems.forEach((submitItem)=>{
                                 if(submitItem.homeworkLibItemId===item.ID){
                                     record=submitItem;
                                 }

@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Row, Col, message,} from "antd";
+import {Button, Card, Row, Col,} from "antd";
 import Request from "../../api"
 import queryString from "querystring";
 import moment from "moment";
@@ -36,7 +36,7 @@ export default class Exam extends React.Component{
             if(item.submitRecord.mark===1){
                 return '已完成';
             }
-            if(item.submitRecord.finishTime){//未手动提交
+            if(!item.submitRecord.finishTime){//未手动提交
                 let startTime=moment(item.submitRecord.startTime);
                 let stopTime=startTime.add(item.duration,'minutes');
                 if(stopTime.isAfter(now)){

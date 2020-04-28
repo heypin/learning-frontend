@@ -26,7 +26,7 @@ export default class DoExam extends React.Component{
     }
     loadExamLib=async ()=>{
         try {
-            this.loadExamUserSubmit();
+            await this.loadExamUserSubmit();
             const result=await Request.getExamLibWithItemsById(this.examLibId);
             this.submitData.submitItems=new Array(result.items.length).fill({});
             this.setState({examLibData:result});
@@ -94,7 +94,6 @@ export default class DoExam extends React.Component{
                 examPublishId:this.examPublishId,
                 submitItems:[this.submitData.submitItems[sequence-1]],
             };
-            console.log(values);
             await Request.submitExamItem(values);
             this.loadExamUserSubmit();
             message.success("已保存");
@@ -104,7 +103,6 @@ export default class DoExam extends React.Component{
     };
     onMenuItemClick=({item})=>{
         this.setState({selectedSequence:item.props.sequence});
-        console.log(this.state.selectedSequence)
     };
     componentDidMount() {
         this.startExam();
@@ -127,7 +125,7 @@ export default class DoExam extends React.Component{
                         <Menu style={{height:"100%",}} theme="light"  onClick={this.onMenuItemClick}>
                             {this.state.examLibData.items.map((item,index)=>{
                                 let isSave=false;
-                                this.state.examUserSubmit.submitItems.forEach((submitItem,index)=>{
+                                this.state.examUserSubmit.submitItems.forEach((submitItem)=>{
                                     if(submitItem.examLibItemId===item.ID){
                                         isSave=true;
                                     }
@@ -149,7 +147,7 @@ export default class DoExam extends React.Component{
                                 if (sequence===0) return null;
                                 let item = this.state.examLibData.items[sequence-1];
                                 let record={answer:""};
-                                this.state.examUserSubmit.submitItems.forEach((submitItem,index)=>{
+                                this.state.examUserSubmit.submitItems.forEach((submitItem)=>{
                                     if(submitItem.examLibItemId===item.ID){
                                         record=submitItem;
                                     }

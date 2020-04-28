@@ -104,7 +104,6 @@ export default class Resource extends React.Component{
     handleCreateFolder=async (values)=>{
         try{
             let file = {folderName:values.folderName,courseId:this.courseId,parentId:this.parentId};
-            console.log(file);
             await Request.createFolder(file);
             this.handleNewFolderCancel();
             this.loadFileData();
@@ -227,8 +226,7 @@ export default class Resource extends React.Component{
                 <Table bordered columns={this.fileColumns} dataSource={this.state.fileData} pagination={false} rowKey={record=>record.ID}
                        onRow={(record)=> {
                            return {
-                               onDoubleClick: event => {
-                                   console.log(this.parentId,record.ID);
+                               onDoubleClick: () => {
                                    if(record.localFilename===""){//代表是文件夹
                                        this.props.history.push({
                                            pathname:`/teacher-course/${this.courseId}/resource`,

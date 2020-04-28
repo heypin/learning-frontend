@@ -31,9 +31,7 @@ export default class Register extends React.Component{
     onTimerFinish=()=>{
       this.setState({getCaptchaVisible:true});
     };
-    componentDidMount() {
-        console.log(this.formRef.current.getFieldValue("email"))
-    }
+
     getCaptcha=async ()=>{
         try{
             let email=this.formRef.current.getFieldValue("email");

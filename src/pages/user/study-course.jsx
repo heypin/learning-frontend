@@ -30,7 +30,6 @@ export default class StudyCourse extends React.Component{
     getStudyCourse = async ()=>{
         try{
             const result = await Request.getClassesByUserId();
-            console.log(result);
             this.setState({classes:result});
         }catch (e) {
 

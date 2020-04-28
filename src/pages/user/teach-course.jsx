@@ -1,6 +1,5 @@
 import React from "react";
-import {Button, Card, Col, Row, Modal, Form, Upload, Input, Radio, message} from "antd";
-import {PlusOutlined} from "@ant-design/icons";
+import {Button, Card, Col, Row, Modal, Form, Input,  message} from "antd";
 import PictureUpload from "../../components/PictureUpload";
 import Request from "../../api";
 import {Link} from "react-router-dom";
@@ -21,7 +20,7 @@ export default class TeachCourse extends React.Component{
             visible: true,
         });
     };
-    handleCancel = e => {
+    handleCancel = () => {
         this.setState({
             visible: false,
         });
@@ -39,6 +38,7 @@ export default class TeachCourse extends React.Component{
             await Request.createCourse(formData);
             this.handleCancel();
             message.success("创建成功");
+            this.getTeachCourse();
         }catch (e) {
             message.error("创建失败");
         }
