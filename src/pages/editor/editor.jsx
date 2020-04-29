@@ -126,7 +126,7 @@ export default class Editor extends React.Component{
                         <Button type='primary' icon={<PlusOutlined />} onClick={()=>this.createSubjectEditor('编程题')}>编程题</Button>
                     </Space>
                 </Header>
-                <Layout>
+                <Layout className="body">
                     <Sider className="sider" theme="light" breakpoint="lg" collapsedWidth="0" width="300">
                         <Menu theme="light" mode="inline" onClick={this.onMenuItemClick}>
                             {this.state.subjects.map((item,index)=>{return (
@@ -139,7 +139,7 @@ export default class Editor extends React.Component{
                             )})}
                         </Menu>
                     </Sider>
-                    <Content>
+                    <Content className="content">
                         <div style={{padding:20}}>
                             {this.state.editingStatus==='create'?
                                 <SubjectEditor type={this.state.editingSubject.type}

@@ -9,12 +9,18 @@ import Homework from "./homework";
 import Exam from "./exam";
 import Discuss from "./discuss/discuss";
 import queryString from 'querystring'
+import Request from "../../api";
+import github from "../../assets/github.svg"
+import Constant from "../../utils/constant";
 const { Header } = Layout;
 export default class StudentCourse extends React.Component{
     constructor(props) {
         super(props);
         this.parentPath="/student-course";
-        this.query=this.getQuery();
+        this.query=queryString.parse(props.location.search.slice(1));
+        this.state={
+          courseName:"",
+        };
     }
     menuData=[
         {key:"home", path:"/home", text:"首页"},
@@ -24,31 +30,31 @@ export default class StudentCourse extends React.Component{
         {key:"exam",path:"/exam", text:"考试"},
         {key:"discuss",path:"/discuss", text:"讨论"},
     ];
-    getQuery=()=>{
-        const search=this.props.location.search;
-        let courseId,classId=0;
-        let query="";
-        if(search!==""){
-            let obj=queryString.parse(search.slice(1));
-            courseId=obj.courseId;
-            classId=obj.classId;
-            query=`courseId=${courseId}&classId=${classId}`;
+    componentDidMount() {
+        this.loadCourseData();
+    }
+    loadCourseData=async ()=>{
+        try{
+            const result= await Request.getCourseById(parseInt(this.query.courseId.toString()));
+            this.setState({courseName:result.name});
+        }catch (e) {
+            console.log(e);
         }
-        return query
     };
     render() {
 
         return (
             <Layout className="student-course" >
                 <Header className="header" style={{marginBottom:1}}>
-                    <div className="course-name">课程名</div>
+                    <div className="course-name">{this.state.courseName}</div>
+                    <a style={{marginLeft:20}} href={Constant.Github}><img alt="github" src={github}/></a>
                     <Menu theme="light" mode="horizontal"
                           className="menu">
                         {
                             this.menuData.map((item)=>{
                                 return (
                                     <Menu.Item key={item.key}>
-                                        <Link to={{pathname:this.parentPath+item.path,search:this.query}}>
+                                        <Link to={{pathname:this.parentPath+item.path,search:`courseId=${this.query.courseId}&classId=${this.query.classId}`}}>
                                             <span className="nav-text">{item.text}</span>
                                         </Link>
                                     </Menu.Item>

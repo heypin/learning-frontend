@@ -8,6 +8,7 @@ export default {
     getAdminByToken:()=>ajax(`/admin`),
     updateUserPassword:(user)=>ajax(`/user/password`,user,'PUT'),
     updateUserById:(user)=>ajax(`/user`,user,'PUT'),
+    getCourseById:(id)=>ajax(`/course`,{id:id}),
     createCourse:(course)=>ajax(`/course`,course,'POST'),
     getTeachCourse:()=>ajax(`/course/teach`),
     createClass:(clazz)=>ajax(`/class`,clazz,'POST'),
@@ -17,6 +18,7 @@ export default {
     createFolder:(file)=>ajax(`/file/folder`,file,'POST'),
 
     downloadFile:(id)=>download(`/file/download?id=${id}`),
+    downloadExcelExample:()=>download(`/excel/example`),
     exportExamToExcel:(id)=>download(`/exam/excel?examPublishId=${id}`),
     exportHomeworkToExcel:(id)=>download(`/homework/excel?homeworkPublishId=${id}`),
 
@@ -80,4 +82,7 @@ export default {
     finishExam:(submit)=>ajax(`/examSubmit/finish`,submit,'PUT'),
     updateExamSubmitItemsScore:(submit)=>ajax(`/examSubmit/score`,submit,'PUT'),
     getRegisterCode:(email)=>ajax(`/register/code`,{email:email}),
+
+    importExcelSubjectToLib:(excel)=>ajax(`/excel/lib`,excel,'POST'),
+
 }

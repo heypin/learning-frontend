@@ -4,3 +4,4 @@ Constant.BaseAvatar = '/avatar/';
 Constant.BaseCover = '/cover/';
 Constant.BaseVideo = '/video/';
 Constant.ProgramUrl='/compile';
+Constant.Github='https://github.com/heypin/learning';

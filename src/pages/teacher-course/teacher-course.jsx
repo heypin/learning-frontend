@@ -1,6 +1,7 @@
 import React from "react";
 import {Layout, Menu} from "antd";
 import {Link, Redirect, Route, Switch} from "react-router-dom";
+import Request from '../../api'
 import Home from "./home";
 import Classes from "./class";
 import Resource from "./resource";
@@ -8,11 +9,16 @@ import Notify from "./notify";
 import Homework from "./homework/homework";
 import Discuss from "./discuss/discuss";
 import Exam from "./exam/exam";
+import Constant from "../../utils/constant";
+import github from "../../assets/github.svg";
 const { Header } = Layout;
 export default class TeacherCourse extends React.Component{
     constructor(props) {
         super(props);
         this.parentPath="/teacher-course/"+props.match.params.id;
+        this.state={
+          courseName:"",
+        };
     }
     menuData=[
         {key:"home", path:"/home", text:"首页"},
@@ -23,11 +29,23 @@ export default class TeacherCourse extends React.Component{
         {key:"exam",path:"/exam", text:"考试"},
         {key:"discuss",path:"/discuss", text:"讨论"},
     ];
+    componentDidMount() {
+        this.loadCourseData();
+    }
+    loadCourseData=async ()=>{
+        try{
+           const result= await Request.getCourseById(this.props.match.params.id);
+           this.setState({courseName:result.name});
+        }catch (e) {
+            console.log(e);
+        }
+    };
     render() {
         return (
             <Layout className="teacher-course" >
                 <Header className="header" style={{marginBottom:1}}>
-                    <div className="course-name">课程名</div>
+                    <div className="course-name">{this.state.courseName}</div>
+                    <a style={{marginLeft:20}} href={Constant.Github}><img alt="github" src={github}/></a>
                     <Menu theme="light" mode="horizontal"
                            className="menu">
                         {

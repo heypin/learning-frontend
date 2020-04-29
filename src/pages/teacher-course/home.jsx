@@ -128,10 +128,11 @@ export default class Home extends React.Component{
     showUpdateChapterModal=()=>{this.setState({updateChapterModal:true})};
     cancelUploadVideoModal=()=>{this.setState({uploadVideoModal:false})};
     showUploadVideoModal=()=>{this.setState({uploadVideoModal:true})};
-    beforeUpload = file => {
+
+    beforeUpload = () => {
         return false;
     };
-    onRemove = (file) => {
+    onRemove = () => {
         this.setState({fileList:[]});
     };
     handleChange=(info)=>{
