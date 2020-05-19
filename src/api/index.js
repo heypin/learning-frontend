@@ -3,24 +3,31 @@ import {download} from './ajax'
 export default {
     userLogin:(user)=> ajax(`/login`,user,'POST'),
     userRegister:(user)=>ajax(`/register`,user,'POST'),
+    userForgetPassword:(user)=>ajax(`/forget-password`,user,'PUT'),
+    getCaptcha:(email)=>ajax(`/captcha`,{email:email}),
     executeProgram:(program)=>ajax(`/compile`,program,'POST'),
+
     getUserByToken:()=>ajax(`/user`),//axios拦截器添加了token不用传入
-    getAdminByToken:()=>ajax(`/admin`),
     updateUserPassword:(user)=>ajax(`/user/password`,user,'PUT'),
     updateUserById:(user)=>ajax(`/user`,user,'PUT'),
+
     getCourseById:(id)=>ajax(`/course`,{id:id}),
     createCourse:(course)=>ajax(`/course`,course,'POST'),
     getTeachCourse:()=>ajax(`/course/teach`),
+
     createClass:(clazz)=>ajax(`/class`,clazz,'POST'),
     getClassesByCourseId:(courseId)=>ajax(`/class`,{courseId:courseId}),
+
     getChildFile:(file)=>ajax(`/file/children`,file,'GET'),
     createFile:(file)=>ajax(`/file`,file,'POST'),
     createFolder:(file)=>ajax(`/file/folder`,file,'POST'),
-
     downloadFile:(id)=>download(`/file/download?id=${id}`),
+
     downloadExcelExample:()=>download(`/excel/example`),
-    exportExamToExcel:(id)=>download(`/exam/excel?examPublishId=${id}`),
-    exportHomeworkToExcel:(id)=>download(`/homework/excel?homeworkPublishId=${id}`),
+    exportExamToExcel:(id)=>download(`/excel/exportExamSubmit?examPublishId=${id}`),
+    exportHomeworkToExcel:(id)=>download(`/excel/exportHomeworkSubmit?homeworkPublishId=${id}`),
+    importExcelSubjectToLib:(excel)=>ajax(`/excel/importLib`,excel,'POST'),
+    exportLibSubjectToExcel:(libId,type)=>download(`/excel/exportLib?libId=${libId}&type=${type}`),
 
     deleteFile:(id)=>ajax(`/file`,{id:id},'DELETE'),
     getChapterByCourseId:(courseId)=>ajax(`/chapter`,{courseId:courseId}),
@@ -81,8 +88,6 @@ export default {
     startExam:(submit)=>ajax(`/examSubmit/start`,submit,'POST'),
     finishExam:(submit)=>ajax(`/examSubmit/finish`,submit,'PUT'),
     updateExamSubmitItemsScore:(submit)=>ajax(`/examSubmit/score`,submit,'PUT'),
-    getRegisterCode:(email)=>ajax(`/register/code`,{email:email}),
 
-    importExcelSubjectToLib:(excel)=>ajax(`/excel/lib`,excel,'POST'),
 
 }

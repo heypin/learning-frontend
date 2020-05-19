@@ -13,12 +13,13 @@ class Login extends React.Component{
             window.localStorage.setItem("token",result.token);
             this.props.history.push("/user");
         }catch (e) {
-            if(e.response.status===400){
-                message.error("参数错误！")
-            }else {
-                message.error("用户名或密码错误！");
+            let err="";
+            if(e.response.data.err){
+                err=e.response.data.err;
             }
+            message.error("登录失败！"+err);
         }
+
     };
     onFinish=(values)=>{
         this.userLogin(values);
@@ -34,14 +35,12 @@ class Login extends React.Component{
                     >
                         <Input prefix={<UserOutlined className="site-form-item-icon" />}  />
                     </Form.Item>
-                    <Form.Item name="password" rules={[
+                    <Form.Item name="password" hasFeedback rules={[
                             {required: true, message: '请输入密码!'},
                             {min:8,message: '密码最短8位！'}
                         ]}
                     >
-                        <Input prefix={<LockOutlined className="site-form-item-icon" />}
-                            type="password"
-                        />
+                        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />}/>
                     </Form.Item>
 
                     <Form.Item>
@@ -50,6 +49,7 @@ class Login extends React.Component{
                         </Button>
                         <div style={{fontSize:20,marginTop:20}}>
                             或 <Link to="/register" >注册</Link>
+                            <Link style={{float:"right"}} to="/forget-password">找回密码</Link>
                         </div>
                     </Form.Item>
                 </Form>

@@ -112,7 +112,7 @@ export default class DoExam extends React.Component{
         if (!this.state.allowExam) return null;
         const cardExtra=(
             <Space size="large">
-                <Timer style={{fontSize:30}} seconds={this.state.countDown}/>
+                <Timer onFinish={this.submitExam} style={{fontSize:30}} seconds={this.state.countDown}/>
                 <Popconfirm placement="bottomRight" title="确定提交?提交后不可再进入" onConfirm={()=>this.submitExam()}>
                     <Button type="primary">提交</Button>
                 </Popconfirm>

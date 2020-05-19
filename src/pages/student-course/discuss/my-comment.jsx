@@ -9,7 +9,7 @@ import {withRouter} from "react-router";
 class MyComment extends React.Component{
     constructor(props) {
         super(props);
-        this.courseId = queryString.parse(props.location.search.slice(1)).courseId;
+        this.courseId = parseInt(queryString.parse(props.location.search.slice(1)).courseId.toString());
         this.state = {
             commentData: [],
         };

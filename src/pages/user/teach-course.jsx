@@ -82,13 +82,13 @@ export default class TeachCourse extends React.Component{
                             }}/>
                         </Form.Item>
                         <Form.Item name="name" label="课程名"  rules={[
-                            {required: true,message: '请输入邮箱!'},
+                            {required: true,message: '请输入课程名!'},
                         ]}
                         >
                             <Input  />
                         </Form.Item>
                         <Form.Item name="teacher" label="教师"
-                                   rules={[{ required: true, message: '请输入姓名!' }]}
+                                   rules={[{ required: true, message: '请输入课程教师!' }]}
                         >
                             <Input />
                         </Form.Item>

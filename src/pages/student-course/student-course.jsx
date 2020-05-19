@@ -41,12 +41,15 @@ export default class StudentCourse extends React.Component{
             console.log(e);
         }
     };
+    goToUserPage=()=>{
+      this.props.history.push("/user");
+    };
     render() {
 
         return (
             <Layout className="student-course" >
                 <Header className="header" style={{marginBottom:1}}>
-                    <div className="course-name">{this.state.courseName}</div>
+                    <div onClick={this.goToUserPage} className="course-name">{this.state.courseName}</div>
                     <a style={{marginLeft:20}} href={Constant.Github}><img alt="github" src={github}/></a>
                     <Menu theme="light" mode="horizontal"
                           className="menu">

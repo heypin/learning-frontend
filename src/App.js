@@ -9,11 +9,12 @@ import TeacherCourse from "./pages/teacher-course/teacher-course";
 import {connect} from 'react-redux';
 import {getUser} from "./store/actions";
 import Editor from "./pages/editor/editor";
-import DoHomework from "./pages/homework/doHomework";
-import MarkHomework from "./pages/homework/markHomework";
-import ViewHomework from "./pages/homework/viewHomework";
-import DoExam from "./pages/exam/doExam";
-import MarkExam from "./pages/exam/markExam";
+import DoHomework from "./pages/homework/do-homework";
+import MarkHomework from "./pages/homework/mark-homework";
+import ViewHomework from "./pages/homework/view-homework";
+import DoExam from "./pages/exam/do-exam";
+import MarkExam from "./pages/exam/mark-exam";
+import ForgetPassword from "./pages/login-register/forget-password";
 
 
 class App extends React.Component{
@@ -40,6 +41,7 @@ class App extends React.Component{
                         <Route path="/viewHomework" component={ViewHomework}/>
                         <Route path="/doExam" component={DoExam}/>
                         <Route path="/markExam" component={MarkExam}/>
+                        <Route path="/forget-password" component={ForgetPassword}/>
                         {/*<Route path='/account'  render={(props)=>{*/}
                         {/*  return <Account user={this.state.user} {...props}/>*/}
                         {/*}}/>*/}

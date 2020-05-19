@@ -33,7 +33,12 @@ class ExamLibComponent extends React.Component{
                         <Divider type="vertical" />
                         <Button style={{padding:0}} type='link'
                                 onClick={()=>this.showImportLibModal(record)}>
-                            从Excel中导入试题
+                            从Excel中导入
+                        </Button>
+                        <Divider type="vertical" />
+                        <Button style={{padding:0}} type='link'
+                                onClick={()=>this.exportLibToExcel(record)}>
+                            导出到Excel
                         </Button>
                         <Divider type="vertical" />
                         <Button style={{padding:0}} disabled={record.subjectCount===0} type='link'
@@ -132,6 +137,13 @@ class ExamLibComponent extends React.Component{
     };
     cancelImportLibModal=()=>{
         this.setState({importLibModal:false});
+    };
+    exportLibToExcel=async (record)=>{
+        try{
+            await Request.exportLibSubjectToExcel(record.ID,"exam");
+        }catch (e) {
+            message.error("下载出错");
+        }
     };
     importLibFormExcel=async ()=>{
         const { fileList } = this.state;
