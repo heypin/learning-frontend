@@ -31,20 +31,26 @@ export default class Homework extends React.Component{
         this.props.history.push({pathname:"/viewHomework",search:query});
     };
     getSubmitStatus=(item)=>{
-        let beginTime=new Date(item.beginTime).getTime();
-        let endTime=new Date(item.endTime).getTime();
-        let now = new Date().getTime();
-        if(now<beginTime){
+        let now =moment();
+        let beginTime=moment(item.beginTime);
+        let endTime=moment(item.endTime);
+        if(now.isBefore(beginTime)){
             return '未开始';
+        }
+        if(item.submitRecord.ID===0){//已开始但没有提交记录
+            if(now.isAfter(endTime)) {
+                return '已过期';
+            } else {
+                return '待完成';
+            }
         }else{
-            if(item.submitRecord.ID===0){//未提交
-                if(now>endTime) return '已过期';
-                if(now<endTime) return '待完成';
-            }else{
-                if(item.submitRecord.mark===0){//未批阅
-                    return '待批阅';
-                }else if(item.submitRecord.mark===1){
-                    return '已完成';
+            if(item.submitRecord.mark===1){//已开始已做且被批改
+                return '已完成';
+            }else{//已开始已做未被批改
+                if(now.isBefore(endTime) && item.resubmit===1) {//未到截止日期且允许重复提交
+                    return '可重新编辑';
+                }else{
+                    return "待批阅"
                 }
             }
         }
@@ -63,11 +69,11 @@ export default class Homework extends React.Component{
                                         <div style={{display:"flex",justifyContent:"space-between",paddingLeft:20,paddingRight:20}}>
                                             {status==="已完成"?<span><span style={{color:"red",fontSize:20}}>{item.submitRecord.totalScore}</span> 分</span>:<div/>}
                                             {( ()=>{
-                                                if(status==="未开始"){
-                                                    return <Button disabled={true}>编辑</Button>
+                                                if(status==="未开始"||status==="待批阅"){
+                                                    return <Button disabled={true}>{status}</Button>
                                                 }else if(status==="已完成"||status==="已过期"){
                                                     return <Button onClick={()=>this.goToViewHomeworkPage(item)}>查看</Button>
-                                                }else if(status==="待批阅"){
+                                                }else if(status==="可重新编辑"){
                                                     return <Button onClick={()=>this.goToFinishHomeworkPage(item)}>重新编辑</Button>
                                                 }else if(status==="待完成"){
                                                     return <Button onClick={()=>this.goToFinishHomeworkPage(item)}>编辑</Button>

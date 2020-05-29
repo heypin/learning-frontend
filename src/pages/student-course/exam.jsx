@@ -30,10 +30,13 @@ export default class Exam extends React.Component{
             return '未开始';
         }
         if(item.submitRecord.ID===0){//未点击开始考试
-            if(now.isAfter(endTime)) return '已过期';
-            if(now.isBefore(endTime)) return '待完成';
+            if(now.isAfter(endTime)) {
+                return '已过期';
+            } else {
+                return '待完成';
+            }
         }else{
-            if(item.submitRecord.mark===1){
+            if(item.submitRecord.mark===1){//已点击开始考试且被批改
                 return '已完成';
             }
             if(!item.submitRecord.finishTime){//未手动提交
@@ -42,11 +45,8 @@ export default class Exam extends React.Component{
                 if(stopTime.isAfter(now)){
                     return '待完成';
                 }else{
-                    return '考试结束';
-                }
-            }
-            if(item.submitRecord.mark===0){//未批阅
                     return '待批阅';
+                }
             }
         }
     };

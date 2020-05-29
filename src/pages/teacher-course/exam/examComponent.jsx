@@ -49,7 +49,7 @@ class ExamComponent extends React.Component{
             examPublishData:[],
             examSubmitData:[],
             classData:[],//有哪些班级
-            selectedValue:undefined,//选择的班级
+            selectedValue:0,//选择的班级
             republishExamModal:false,
             submitRecordVisible:false,
         }
@@ -146,6 +146,7 @@ class ExamComponent extends React.Component{
         }
     };
     onSelectChange=(value)=>{
+        this.setState({selectedValue:value});
         this.loadExamPublishData(value);
     };
     downloadExamExcel=async ()=>{

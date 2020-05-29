@@ -64,7 +64,7 @@ class HomeworkComponent extends React.Component{
             homeworkPublishData:[],
             homeworkSubmitData:[],
             classData:[],//有哪些班级
-            selectedValue:undefined,//选择的班级
+            selectedValue:0,//选择的班级ID
             republishHomeworkModal:false,
             submitRecordVisible:false,
         }
@@ -178,6 +178,7 @@ class HomeworkComponent extends React.Component{
         }
     };
     onSelectChange=(value)=>{
+        this.setState({selectedValue:value});
         this.loadHomeworkPublishData(value);
     };
     getSummary=(pageData)=>{
