@@ -5,12 +5,7 @@ import Constant from '../utils/constant'
 axios.interceptors.request.use(function (config) {
     config.baseURL=Constant.BaseUrl;
     // config.withCredentials = true;
-    let token = '';
-    if(config.url.startsWith("/admin")){
-        token = window.localStorage.getItem('admin_token');
-    }else{
-        token = window.localStorage.getItem('token');
-    }
+    let token = window.localStorage.getItem('token');
     if (token) {
         config.headers['Authorization'] = token
     }
@@ -19,17 +14,13 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error)
 });
 axios.interceptors.response.use(function (response) {
-    if (response.status===401) {
-        message.error("请重新登录后操作!");
-        if(response.config.url.startsWith(`/admin/`)){
-            window.localStorage.removeItem("admin_token");//可能为失效，所以移除
-        }else {
-            window.localStorage.removeItem("token");
-            window.location.href="/#login";
-        }
-    }
     return response;
 }, function (error) {
+    if (error.response.status===401) {
+        message.error("请重新登录后操作!");
+        window.localStorage.removeItem("token");
+        window.location.href="/#login";
+    }
     return Promise.reject(error);
 });
 
