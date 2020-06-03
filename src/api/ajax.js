@@ -19,7 +19,7 @@ axios.interceptors.response.use(function (response) {
     if (error.response.status===401) {
         message.error("请重新登录后操作!");
         window.localStorage.removeItem("token");
-        window.location.href="/#login";
+        window.location.href="/learning#/login";//learning为后端部署前缀
     }
     return Promise.reject(error);
 });
